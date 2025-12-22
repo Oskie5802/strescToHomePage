@@ -9,6 +9,8 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 async function getSummary(slug) {
   try {
     // 1. Try by direct slug match
+    if (!slug) return null;
+
     let { data: slugData } = await supabase
       .from('summaries')
       .select('id, book_title, content_json')
@@ -96,19 +98,20 @@ function slugify(text) {
 }
 
 export async function generateMetadata({ params }) {
-  const summary = await getSummary(params.slug)
+  const { slug } = await params
+  const summary = await getSummary(slug)
   if (!summary) return { title: 'Nie znaleziono - Strescto' }
   
   return {
     title: `${summary.title} - Streszczenie, Plan Wydarzeń, Analiza | Strescto`,
     description: `Pełne streszczenie i opracowanie lektury ${summary.title}. ${summary.author}. Plan wydarzeń, charakterystyka bohaterów, motywy literackie.`,
     alternates: {
-      canonical: `https://app.strescto.pl/s/${params.slug}`,
+      canonical: `https://app.strescto.pl/s/${slug}`,
     },
     openGraph: {
       title: `${summary.title} - Streszczenie`,
       description: `Przygotuj się do sprawdzianu z lektury ${summary.title}.`,
-      url: `https://app.strescto.pl/s/${params.slug}`,
+      url: `https://app.strescto.pl/s/${slug}`,
       siteName: 'Strescto',
       type: 'article',
     },
@@ -116,7 +119,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function SummaryPage({ params }) {
-  const summary = await getSummary(params.slug)
+  const { slug } = await params
+  const summary = await getSummary(slug)
 
   if (!summary) {
     return (
@@ -166,7 +170,7 @@ export default async function SummaryPage({ params }) {
         '@type': 'ReadAction',
         'target': {
           '@type': 'EntryPoint',
-          'urlTemplate': `https://app.strescto.pl/s/${params.slug}`
+          'urlTemplate': `https://app.strescto.pl/s/${slug}`
         }
       },
       'isAccessibleForFree': 'False',
