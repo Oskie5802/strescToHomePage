@@ -15,6 +15,10 @@ const manrope = Manrope({
 export const metadata = {
   title: 'Strescto - Streszczenia AI',
   description: 'Twoje centrum streszczeń lektur generowanych przez sztuczną inteligencję.',
+  icons: {
+    icon: '/icon.png',
+    apple: '/apple-icon.png',
+  },
 }
 
 export default function RootLayout({ children }) {
