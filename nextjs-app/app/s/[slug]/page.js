@@ -322,7 +322,7 @@ export default async function SummaryPage({ params }) {
       </aside>
 
       {/* Main Content Area */}
-      <div style={{ flex: 1, marginLeft: '300px', maxWidth: '900px', padding: '60px 80px' }}>
+      <div className="main-content" style={{ flex: 1, marginLeft: '300px', maxWidth: '900px', padding: '60px 80px' }}>
         
         {/* Intro Paragraph */}
         <div style={{ fontSize: '18px', lineHeight: '1.8', color: '#232323', marginBottom: '40px' }}>
@@ -414,10 +414,10 @@ export default async function SummaryPage({ params }) {
       </div>
 
       {/* Mobile Header (Visible only on mobile) */}
-      <style jsx global>{`
+      <style>{`
         @media (max-width: 768px) {
           aside { display: none !important; }
-          div[style*="marginLeft: '300px'"] { margin-left: 0 !important; padding: 20px !important; }
+          .main-content { margin-left: 0 !important; padding: 20px !important; }
         }
       `}</style>
     </div>
