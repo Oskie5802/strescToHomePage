@@ -1,0 +1,11 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.ronimstudio.strescto",
+      "sha256_cert_fingerprints":
+      ["48:4B:93:5A:85:48:15:E9:E4:77:A7:DF:88:0A:39:01:3B:C9:4B:06:0B:B7:93:18:BA:B1:67:AA:7C:59:DD:10"]
+    }
+  }
+]

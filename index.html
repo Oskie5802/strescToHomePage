@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streść.to | Twoja Biblioteka Wiedzy</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- ZMIENNE I MOTYW --- */
+        :root {
+            --paper: #F2F0E9;
+            --ink: #232323;
+            --burnt-orange: #E05D44;
+            --forest-green: #2D6A4F;
+            --surface: #FFFFFF;
+            --border: #E5E0D5;
+            --text-secondary: #5D5D5D;
+            --font-serif: 'Fraunces', serif;
+            --font-sans: 'Manrope', sans-serif;
+            --container-width: 1200px;
+            --radius: 16px;
+        }
+
+        /* --- BAZA --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--paper);
+            color: var(--ink);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            line-height: 1.5;
+            transition: opacity 0.3s ease; /* Płynne ładowanie */
+        }
+
+        /* Noise Texture */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9999; opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* --- NAV & LANG SWITCHER --- */
+        nav {
+            padding: 32px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--ink);
+            text-decoration: none;
+        }
+        .logo span { color: var(--burnt-orange); }
+
+        /* Styl przełącznika języka */
+        .lang-switch {
+            display: flex;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 4px;
+            background: var(--surface);
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn.active {
+            background-color: var(--ink);
+            color: var(--surface);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .nav-login {
+            text-decoration:none; 
+            color: var(--ink); 
+            font-weight:600; 
+            font-size: 0.9rem;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            min-height: 80vh;
+            padding-bottom: 80px;
+        }
+
+        .hero-content h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(3rem, 5vw, 4.5rem);
+            line-height: 1.1;
+            font-weight: 300;
+            margin-bottom: 24px;
+            font-variation-settings: "SOFT" 50;
+        }
+
+        .hero-content h1 em {
+            font-style: italic;
+            color: var(--forest-green);
+            font-weight: 500;
+        }
+
+        .hero-content p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 480px;
+            margin-bottom: 40px;
+        }
+
+        .btn-group { display: flex; gap: 16px; flex-wrap: wrap; }
+
+        .btn {
+            padding: 16px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--ink);
+            color: var(--surface);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .btn-primary:hover { transform: translateY(-2px); background: #000; }
+
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--ink);
+            border: 1px solid var(--border);
+        }
+        .btn-secondary:hover { transform: translateY(-2px); border-color: var(--ink); }
+
+        /* HERO IMAGE - 3D Mockup */
+        .hero-visual {
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .phone-mockup {
+            width: 320px;
+            height: 640px;
+            background: var(--surface);
+            border: 8px solid var(--ink);
+            border-radius: 32px;
+            margin: 0 auto;
+            position: relative;
+            box-shadow: 20px 20px 60px rgba(0,0,0,0.15);
+            transform: rotateY(-15deg) rotateX(5deg) rotateZ(-2deg);
+            transition: transform 0.5s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .phone-mockup:hover {
+            transform: rotateY(-5deg) rotateX(0deg) rotateZ(0deg);
+        }
+
+        .ui-header { height: 60px; border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 20px; font-family: var(--font-serif); font-weight: 700; }
+        .ui-content { padding: 20px; flex: 1; background: linear-gradient(to bottom, #fff 0%, #FAF9F6 100%); }
+        .ui-line { height: 10px; background: #EEE; margin-bottom: 12px; border-radius: 4px; }
+        .ui-line.short { width: 60%; }
+        .ui-line.title { height: 20px; width: 80%; background: var(--ink); margin-bottom: 24px; }
+        .ui-card { background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 15px; border: 1px solid var(--border); }
+
+        /* --- SECTIONS --- */
+        .feature-section {
+            padding: 100px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .feature-section.reversed { direction: rtl; }
+        .feature-section.reversed > * { direction: ltr; }
+
+        .feature-text h2 {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .feature-text h2::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            width: 100%;
+            height: 12px;
+            background-color: var(--burnt-orange);
+            opacity: 0.2;
+            z-index: -1;
+            transform: skewX(-15deg);
+        }
+
+        .feature-text p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 32px;
+        }
+
+        /* --- SCREENSHOTS --- */
+        .screen-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4/3;
+            perspective: 1000px;
+        }
+
+        .app-screen {
+            width: 90%;
+            height: 100%;
+            background: var(--surface);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            position: absolute;
+            top: 0; left: 0;
+            overflow: hidden;
+            padding: 30px;
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* Timeline UI */
+        .timeline-ui { display: flex; flex-direction: column; gap: 20px; }
+        .timeline-item { display: flex; gap: 15px; align-items: flex-start; }
+        .t-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--burnt-orange); margin-top: 6px; position: relative; }
+        .t-dot::after { content: ''; position: absolute; top: 12px; left: 50%; width: 2px; height: 40px; background: var(--border); transform: translateX(-50%); }
+        .t-content { flex: 1; }
+        .t-title { height: 14px; width: 40%; background: var(--ink); margin-bottom: 8px; border-radius: 4px; }
+        .t-desc { height: 8px; width: 90%; background: #ddd; border-radius: 4px; margin-bottom: 4px; }
+
+        /* Characters UI */
+        .chars-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .char-card { background: var(--paper); padding: 16px; border-radius: 12px; text-align: center; }
+        .char-avatar { width: 48px; height: 48px; background: var(--forest-green); border-radius: 50%; margin: 0 auto 12px; opacity: 0.8; }
+        .char-name { height: 12px; width: 70%; background: var(--ink); margin: 0 auto 8px; border-radius: 4px; }
+        .char-role { height: 8px; width: 50%; background: #bbb; margin: 0 auto; border-radius: 4px; }
+
+        .reveal-on-scroll { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
+        .reveal-on-scroll.visible { opacity: 1; transform: translateY(0); }
+        .screen-container:hover .app-screen { transform: translateY(-10px) rotateX(5deg); }
+        
+        .screen-decor {
+            position: absolute; width: 100%; height: 100%; top: 20px; left: 20px;
+            background-color: var(--ink); border-radius: 16px; z-index: -1; opacity: 0.05;
+        }
+
+        /* --- FOOTER --- */
+        .footer-cta {
+            text-align: center;
+            padding: 120px 24px;
+            background: linear-gradient(180deg, rgba(242,240,233,0) 0%, rgba(224,93,68,0.05) 100%);
+        }
+        .footer-cta h2 { font-family: var(--font-serif); font-size: 3rem; margin-bottom: 32px; }
+
+        @media (max-width: 900px) {
+            .hero, .feature-section { grid-template-columns: 1fr; gap: 40px; }
+            .feature-section.reversed { direction: ltr; }
+            .hero-visual { display: flex; justify-content: center; margin-top: 40px; }
+            .phone-mockup { transform: rotateY(0) rotateZ(0); }
+            .screen-container { width: 100%; max-width: 400px; margin: 0 auto; }
+            .nav-right { gap: 12px; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 16px; }
+            .hero-content h1 { font-size: 2.5rem; }
+            .btn { width: 100%; justify-content: center; }
+            .nav-right .btn { display: none; } /* Hide app button on small mobile header, maybe? Or keep icon only. Let's keep it but smaller or adjust */
+            .logo { font-size: 1.2rem; }
+        }
+
+        /* App Mockup Specifics */
+        .mockup-search {
+            background: #F5F5F5; border-radius: 12px; padding: 12px; display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+            border: 1px solid #E0E0E0;
+        }
+        .mockup-search-icon { width: 16px; height: 16px; border: 2px solid #999; border-radius: 50%; position: relative; }
+        .mockup-search-icon::after { content:''; position: absolute; bottom: -4px; right: -4px; width: 6px; height: 2px; background: #999; transform: rotate(45deg); }
+        .mockup-search-text { width: 100px; height: 8px; background: #ddd; border-radius: 4px; }
+        
+        .mockup-btn-gen {
+            background: var(--ink); color: #fff; text-align: center; padding: 12px; border-radius: 12px; font-weight: bold; font-size: 0.8rem; margin-bottom: 24px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="container">
+        <a href="#" class="logo" data-i18n="nav.logo">Streść<span>.to</span></a>
+        
+        <div class="nav-right">
+                <!-- Language Switcher -->
+                <div class="lang-switch">
+                    <button class="lang-btn active" onclick="setLanguage('pl')">PL</button>
+                    <button class="lang-btn" onclick="setLanguage('en')">EN</button>
+                </div>
+                
+                <a href="https://app.strescto.pl" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.9rem;" data-i18n="nav.app">Otwórz Aplikację</a>
+            </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="container hero">
+        <div class="hero-content">
+            <h1 data-i18n="hero.title">Zrozum historię,<br>nie tylko <em>słowa</em>.</h1>
+            <p data-i18n="hero.subtitle">Inteligentne streszczenia, które wyciągają esencję. Plany wydarzeń, profile postaci i kontekst – wszystko w jednym, minimalistycznym notesie.</p>
+            <div class="btn-group">
+                <a href="https://app.strescto.pl" class="btn btn-primary" data-i18n="btn.app">Przejdź do aplikacji</a>
+                <a href="https://play.google.com/store/apps/details?id=com.ronimstudio.strescto" class="btn btn-secondary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.54,12.92 20.16,13.19L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/></svg>
+                    Google Play
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="phone-mockup">
+                <div class="ui-header" data-i18n="nav.logo_plain">Streść.to</div>
+                <div class="ui-content">
+                    <div class="mockup-search">
+                        <div class="mockup-search-icon"></div>
+                        <div class="mockup-search-text"></div>
+                    </div>
+                    
+                    <div class="mockup-btn-gen">Generuj Streszczenie</div>
+
+                    <div style="font-size: 0.7rem; color: #999; margin-bottom: 10px; font-weight: 700;">POPULARNE</div>
+                    
+                    <div class="ui-card">
+                        <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                            <div class="ui-line short" style="background:var(--ink); height: 10px; width: 40%;"></div>
+                            <div style="width: 20px; height: 10px; background: #eee; border-radius: 4px;"></div>
+                        </div>
+                        <div class="ui-line" style="margin-bottom:0; height: 6px;"></div>
+                    </div>
+
+                    <div class="ui-card">
+                        <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                            <div class="ui-line short" style="background:var(--ink); height: 10px; width: 60%;"></div>
+                            <div style="width: 20px; height: 10px; background: #eee; border-radius: 4px;"></div>
+                        </div>
+                        <div class="ui-line" style="margin-bottom:0; height: 6px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- FEATURE 1 -->
+    <section class="container feature-section reveal-on-scroll">
+        <div class="feature-text">
+            <h2 data-i18n="feat1.title">Chronologia i <br>Plany Wydarzeń</h2>
+            <p data-i18n="feat1.desc">Gubisz się w wątkach? Nasz algorytm układa fabułę w przejrzystą oś czasu. Zobacz przyczynę i skutek każdego zwrotu akcji, bez konieczności wertowania setek stron.</p>
+            <div style="font-family: var(--font-serif); color: var(--burnt-orange); font-style: italic;" data-i18n="feat1.quote">"Kto co zrobił i kiedy?" – teraz już wiesz.</div>
+        </div>
+        <div class="feature-visual">
+            <div class="screen-container">
+                <div class="screen-decor"></div>
+                <div class="app-screen" style="transform: rotate(-2deg);">
+                    <div class="timeline-ui">
+                        <div style="font-weight:700; font-size: 1.2rem; margin-bottom:10px;" data-i18n="mockup.timeline">Oś czasu: Rozdział IV</div>
+                        
+                        <div class="timeline-item">
+                            <div class="t-dot"></div>
+                            <div class="t-content">
+                                <div class="t-title"></div>
+                                <div class="t-desc"></div>
+                                <div class="t-desc" style="width: 60%"></div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="t-dot"></div>
+                            <div class="t-content">
+                                <div class="t-title" style="width: 50%"></div>
+                                <div class="t-desc"></div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="t-dot" style="background: var(--ink)"></div>
+                            <div class="t-content">
+                                <div class="t-title" style="width: 30%"></div>
+                                <div class="t-desc"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURE 2 -->
+    <section class="container feature-section reversed reveal-on-scroll">
+        <div class="feature-text">
+            <h2 data-i18n="feat2.title">Profile i <br>Motywacje Postaci</h2>
+            <p data-i18n="feat2.desc">Każdy bohater dostaje swoją kartotekę. Zrozum powiązania, cechy charakteru i ukryte motywy. Streść.to tworzy mapę relacji, która sprawia, że nawet "Wesele" staje się zrozumiałe.</p>
+        </div>
+        <div class="feature-visual">
+            <div class="screen-container">
+                <div class="screen-decor" style="transform: rotate(3deg); top: 10px; left: -10px;"></div>
+                <div class="app-screen" style="transform: rotate(2deg);">
+                     <div style="font-weight:700; font-size: 1.2rem; margin-bottom:20px; display:flex; justify-content:space-between;">
+                        <span data-i18n="mockup.characters">Postacie</span>
+                        <span style="font-size:0.8rem; color: var(--forest-green); border:1px solid currentColor; padding: 2px 8px; border-radius:12px;" data-i18n="mockup.main">Główni</span>
+                     </div>
+                    <div class="chars-grid">
+                        <div class="char-card">
+                            <div class="char-avatar"></div>
+                            <div class="char-name"></div>
+                            <div class="char-role"></div>
+                        </div>
+                        <div class="char-card">
+                            <div class="char-avatar" style="background:var(--burnt-orange)"></div>
+                            <div class="char-name"></div>
+                            <div class="char-role"></div>
+                        </div>
+                        <div class="char-card">
+                            <div class="char-avatar" style="background:#ddd"></div>
+                            <div class="char-name"></div>
+                            <div class="char-role"></div>
+                        </div>
+                        <div class="char-card">
+                            <div class="char-avatar" style="background:var(--ink)"></div>
+                            <div class="char-name"></div>
+                            <div class="char-role"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div class="footer-cta reveal-on-scroll">
+        <h2 data-i18n="footer.title">Gotowy na czystą wiedzę?</h2>
+        <div class="btn-group" style="justify-content: center;">
+            <a href="https://play.google.com/store/apps/details?id=com.ronimstudio.strescto" class="btn btn-primary" data-i18n="btn.download">Pobierz Aplikację</a>
+        </div>
+    </div>
+
+    <script>
+        // --- INTERNATIONALIZATION (i18n) LOGIC ---
+        
+        const translations = {
+            pl: {
+                "nav.logo": 'Streść<span>.to</span>',
+                "nav.logo_plain": 'Streść.to',
+                "nav.app": "Otwórz Aplikację",
+                "nav.login": "Zaloguj się",
+                "hero.title": "Zrozum historię,<br>nie tylko <em>słowa</em>.",
+                "hero.subtitle": "Inteligentne streszczenia, które wyciągają esencję. Plany wydarzeń, profile postaci i kontekst – wszystko w jednym, minimalistycznym notesie.",
+                "btn.app": "Przejdź do aplikacji",
+                "mockup.book_title": "Lalka (B. Prus)",
+                "feat1.title": "Chronologia i <br>Plany Wydarzeń",
+                "feat1.desc": "Gubisz się w wątkach? Nasz algorytm układa fabułę w przejrzystą oś czasu. Zobacz przyczynę i skutek każdego zwrotu akcji, bez konieczności wertowania setek stron.",
+                "feat1.quote": "\"Kto co zrobił i kiedy?\" – teraz już wiesz.",
+                "mockup.timeline": "Oś czasu: Rozdział IV",
+                "feat2.title": "Profile i <br>Motywacje Postaci",
+                "feat2.desc": "Każdy bohater dostaje swoją kartotekę. Zrozum powiązania, cechy charakteru i ukryte motywy. Streść.to tworzy mapę relacji, która sprawia, że nawet najtrudniejsze lektury stają się zrozumiałe.",
+                "mockup.characters": "Postacie",
+                "mockup.main": "Główni",
+                "footer.title": "Gotowy na czystą wiedzę?",
+                "btn.download": "Pobierz Aplikację"
+            },
+            en: {
+                "nav.logo": 'Summarize<span>.it</span>',
+                "nav.logo_plain": 'Summarize.it',
+                "nav.app": "Open App",
+                "nav.login": "Log in",
+                "hero.title": "Understand the story,<br>not just the <em>words</em>.",
+                "hero.subtitle": "Intelligent summaries that extract the essence. Event timelines, character profiles, and context – all in one minimalist notebook.",
+                "btn.app": "Go to App",
+                "mockup.book_title": "The Great Gatsby",
+                "feat1.title": "Chronology & <br>Event Timelines",
+                "feat1.desc": "Lost in the plot? Our algorithm arranges the story into a clear timeline. See the cause and effect of every plot twist without flipping through hundreds of pages.",
+                "feat1.quote": "\"Who did what and when?\" – now you know.",
+                "mockup.timeline": "Timeline: Chapter IV",
+                "feat2.title": "Profiles & <br>Character Motivations",
+                "feat2.desc": "Every character gets a file. Understand relationships, traits, and hidden motives. Streść.to creates a relationship map that makes even the most complex readings clear.",
+                "mockup.characters": "Characters",
+                "mockup.main": "Main",
+                "footer.title": "Ready for pure knowledge?",
+                "btn.download": "Download App"
+            }
+        };
+
+        function setLanguage(lang) {
+            // 1. Zapisz wybór
+            localStorage.setItem('strescto_lang', lang);
+            
+            // 2. Zaktualizuj przyciski (stylizacja)
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.textContent.toLowerCase() === lang) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // 3. Podmień teksty
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    // Używamy innerHTML, aby obsłużyć tagi <br> i <em> w nagłówkach
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+        }
+
+        function detectAndInitLanguage() {
+            // Sprawdź czy użytkownik już wybrał język
+            const savedLang = localStorage.getItem('strescto_lang');
+            
+            if (savedLang) {
+                setLanguage(savedLang);
+            } else {
+                // Jeśli nie, sprawdź język przeglądarki
+                const userLang = navigator.language || navigator.userLanguage; 
+                // Jeśli polski, ustaw 'pl', w przeciwnym razie 'en'
+                const defaultLang = userLang.startsWith('pl') ? 'pl' : 'en';
+                setLanguage(defaultLang);
+            }
+        }
+
+        // Uruchom przy starcie
+        document.addEventListener('DOMContentLoaded', () => {
+            detectAndInitLanguage();
+            
+            // Scroll observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach((el) => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

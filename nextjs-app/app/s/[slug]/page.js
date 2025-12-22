@@ -143,7 +143,7 @@ export default async function SummaryPage({ params }) {
         '@type': 'ReadAction',
         'target': {
           '@type': 'EntryPoint',
-          'urlTemplate': `https://strescto.pl/s/${params.slug}`
+          'urlTemplate': `https://app.strescto.pl/s/${params.slug}`
         }
       },
       'isAccessibleForFree': 'False',
