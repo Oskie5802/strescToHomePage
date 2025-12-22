@@ -203,166 +203,223 @@ export default async function SummaryPage({ params }) {
   }
 
   return (
-    <div style={{ backgroundColor: '#F2F0E9', minHeight: '100vh', color: '#232323', fontFamily: 'var(--font-manrope), sans-serif' }}>
+    <div style={{ backgroundColor: '#F2F0E9', minHeight: '100vh', color: '#232323', fontFamily: 'var(--font-manrope), sans-serif', display: 'flex' }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       
-      {/* Navbar */}
-      <nav style={{ padding: '20px', borderBottom: '1px solid #E5E0D5', backgroundColor: '#F2F0E9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ fontWeight: 'bold', fontSize: '20px', fontFamily: 'var(--font-fraunces)' }}>Streść.to</div>
-        <a href="https://app.strescto.pl" style={{ textDecoration: 'none', color: '#E05D44', fontWeight: 'bold', fontSize: '14px' }}>
-          Otwórz aplikację &rarr;
-        </a>
-      </nav>
-
-      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
+      {/* Sidebar (Desktop) */}
+      <aside style={{ 
+        width: '300px', 
+        position: 'fixed', 
+        height: '100vh', 
+        borderRight: '1px solid rgba(0,0,0,0.05)', 
+        padding: '40px 24px', 
+        display: 'flex', 
+        flexDirection: 'column',
+        backgroundColor: '#fff'
+      }} className="hidden md:flex">
         
-        {/* Header */}
-        <header style={{ marginTop: '40px', marginBottom: '40px' }}>
-          <h1 style={{ fontSize: '3rem', marginBottom: '10px', fontFamily: 'var(--font-fraunces)', color: '#232323', lineHeight: 1.1 }}>{summary.title}</h1>
-          <p style={{ color: '#5D5D5D', fontSize: '1.2rem', fontFamily: 'var(--font-manrope)' }}>{summary.author}</p>
-        </header>
+        {/* Back Button */}
+        <a href="/" style={{ 
+          textDecoration: 'none', 
+          color: '#5D5D5D', 
+          display: 'flex', 
+          alignItems: 'center', 
+          fontSize: '14px', 
+          fontWeight: '600',
+          marginBottom: '32px'
+        }}>
+          <span style={{ marginRight: '8px' }}>&larr;</span> Wróć
+        </a>
 
-        <main>
-          {/* Summary Section */}
-          <section style={{ marginBottom: '60px' }}>
-            <h2 style={{ fontSize: '1.5rem', fontFamily: 'var(--font-fraunces)', marginBottom: '20px', borderBottom: '2px solid #E05D44', display: 'inline-block', paddingBottom: '5px' }}>Streszczenie</h2>
-            <div style={{ 
-              backgroundColor: '#fff', 
-              padding: '30px', 
-              borderRadius: '20px', 
-              boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
-              lineHeight: '1.8',
-              fontSize: '18px'
-            }}>
-              <div dangerouslySetInnerHTML={{ __html: summary.summaryPreview.replace(/\n/g, '<br/>') }} />
-              
-              <div style={{ 
-                marginTop: '20px', 
-                padding: '20px', 
-                background: 'linear-gradient(to bottom, rgba(255,255,255,0), rgba(242,240,233,1))', 
-                textAlign: 'center',
-                borderRadius: '12px',
-                border: '1px solid #E5E0D5'
-              }}>
-                 <p style={{ fontWeight: 'bold', marginBottom: '15px', color: '#5D5D5D' }}>To tylko fragment...</p>
-                 <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{
-                   display: 'inline-block',
-                   backgroundColor: '#232323',
-                   color: '#fff',
-                   padding: '12px 24px',
-                   borderRadius: '12px',
-                   textDecoration: 'none',
-                   fontWeight: 'bold',
-                   boxShadow: '0 4px 12px rgba(35,35,35,0.2)'
-                 }}>
-                   Czytaj całość w aplikacji
-                 </a>
-              </div>
-            </div>
-          </section>
+        {/* Title & User */}
+        <div style={{ marginBottom: '40px' }}>
+          <h1 style={{ 
+            fontFamily: 'var(--font-fraunces)', 
+            fontSize: '32px', 
+            fontWeight: 'bold', 
+            color: '#232323', 
+            marginBottom: '4px',
+            lineHeight: '1.1'
+          }}>
+            {summary.title}
+          </h1>
+          <p style={{ fontSize: '14px', color: '#888' }}>{summary.author}</p>
+        </div>
 
-          {/* Characters Section */}
-          <section style={{ marginBottom: '60px' }}>
-            <h2 style={{ fontSize: '1.5rem', fontFamily: 'var(--font-fraunces)', marginBottom: '20px', borderBottom: '2px solid #E05D44', display: 'inline-block', paddingBottom: '5px' }}>Bohaterowie</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
-               {summary.characters.map((char, i) => (
-                 <div key={i} style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '16px', border: '1px solid #E5E0D5' }}>
-                    <div style={{ fontSize: '40px', marginBottom: '10px' }}>{char.icon}</div>
-                    <h3 style={{ fontFamily: 'var(--font-fraunces)', fontSize: '20px', marginBottom: '5px' }}>{char.name}</h3>
-                    <div style={{ fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', color: '#E05D44', marginBottom: '10px' }}>{char.role}</div>
-                    <p style={{ fontSize: '14px', color: '#5D5D5D', lineHeight: '1.5' }}>
-                      {char.description.substring(0, 100)}...
-                    </p>
-                 </div>
-               ))}
-               
-               {/* Locked Character Card */}
+        {/* Navigation */}
+        <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          
+          {/* Overview Group */}
+          <div>
+            <div style={{ fontSize: '11px', textTransform: 'uppercase', color: '#999', letterSpacing: '1px', marginBottom: '12px', fontWeight: 'bold' }}>overview</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                <div style={{ 
-                 backgroundColor: '#f9f9f9', 
-                 padding: '20px', 
-                 borderRadius: '16px', 
-                 border: '1px dashed #ccc',
+                 padding: '10px 16px', 
+                 backgroundColor: '#FFF0EE', 
+                 color: '#E05D44', 
+                 borderRadius: '12px', 
+                 fontWeight: 'bold', 
+                 fontSize: '14px',
                  display: 'flex',
-                 flexDirection: 'column',
                  alignItems: 'center',
-                 justifyContent: 'center',
-                 color: '#888',
-                 minHeight: '200px'
+                 justifyContent: 'space-between'
                }}>
-                  <div style={{ fontSize: '30px', marginBottom: '10px' }}>🔒</div>
-                  <p style={{ fontWeight: 'bold' }}>+15 innych postaci</p>
-                  <p style={{ fontSize: '13px', textAlign: 'center', marginTop: '5px' }}>Dostępne w pełnej wersji</p>
+                 <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>✨ Streszczenie</span>
+                 <span style={{ width: '8px', height: '8px', backgroundColor: '#E05D44', borderRadius: '50%' }}></span>
                </div>
+               
+               <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                 👥 Postacie
+               </a>
+               
+               <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                 📈 Plan Wydarzeń
+               </a>
             </div>
-          </section>
+          </div>
 
-          {/* Timeline Section */}
-          <section style={{ marginBottom: '60px' }}>
-            <h2 style={{ fontSize: '1.5rem', fontFamily: 'var(--font-fraunces)', marginBottom: '20px', borderBottom: '2px solid #E05D44', display: 'inline-block', paddingBottom: '5px' }}>Plan Wydarzeń</h2>
-            <div style={{ backgroundColor: '#fff', borderRadius: '20px', overflow: 'hidden', border: '1px solid #E5E0D5' }}>
-               {summary.timeline.map((event, i) => (
-                 <div key={i} style={{ padding: '20px', borderBottom: '1px solid #f0f0f0', display: 'flex', gap: '20px' }}>
-                    <div style={{ minWidth: '80px', fontSize: '14px', color: '#888', fontWeight: 'bold' }}>{event.chapter}</div>
-                    <div>
-                      <h3 style={{ fontFamily: 'var(--font-fraunces)', fontSize: '18px', marginBottom: '8px' }}>{event.event}</h3>
-                      <p style={{ fontSize: '15px', color: '#5D5D5D', lineHeight: '1.6' }}>{event.description}</p>
-                    </div>
-                 </div>
-               ))}
-               <div style={{ padding: '20px', backgroundColor: '#fafafa', textAlign: 'center', color: '#666' }}>
-                  <p style={{ marginBottom: '15px' }}>...i 20 kolejnych punktów fabuły</p>
-                  <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ color: '#E05D44', fontWeight: 'bold', textDecoration: 'none' }}>Odblokuj pełny plan &rarr;</a>
-               </div>
-            </div>
-          </section>
-
-          {/* Premium Locked Sections */}
-          <section style={{ marginBottom: '40px' }}>
-             <h2 style={{ fontSize: '1.5rem', fontFamily: 'var(--font-fraunces)', marginBottom: '20px', color: '#888' }}>Analiza i Motywy</h2>
-             <div style={{ 
-               backgroundColor: '#232323', 
-               borderRadius: '20px', 
-               padding: '40px', 
-               color: '#fff', 
-               textAlign: 'center',
-               position: 'relative',
-               overflow: 'hidden'
-             }}>
-                <div style={{ position: 'relative', zIndex: 1 }}>
-                  <h3 style={{ fontFamily: 'var(--font-fraunces)', fontSize: '24px', marginBottom: '15px' }}>Głęboka Analiza Literacka</h3>
-                  <p style={{ color: '#ccc', marginBottom: '30px', maxWidth: '500px', margin: '0 auto 30px auto' }}>
-                    Uzyskaj dostęp do pełnej analizy motywów, symboli, kontekstu historycznego oraz quizów sprawdzających wiedzę.
-                  </p>
-                  <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{
-                     display: 'inline-block',
-                     backgroundColor: '#E05D44',
-                     color: '#fff',
-                     padding: '14px 30px',
-                     borderRadius: '12px',
-                     textDecoration: 'none',
-                     fontWeight: 'bold',
-                     fontSize: '16px',
-                     boxShadow: '0 4px 15px rgba(224, 93, 68, 0.4)'
-                   }}>
-                     Zaloguj się aby zobaczyć
-                   </a>
-                </div>
-                {/* Abstract bg shapes */}
-                <div style={{ position: 'absolute', top: '-50px', left: '-50px', width: '200px', height: '200px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '50%' }} />
-                <div style={{ position: 'absolute', bottom: '-50px', right: '-50px', width: '300px', height: '300px', backgroundColor: 'rgba(224, 93, 68, 0.1)', borderRadius: '50%' }} />
+          {/* Analysis Group */}
+          <div>
+             <div style={{ fontSize: '11px', textTransform: 'uppercase', color: '#999', letterSpacing: '1px', marginBottom: '12px', fontWeight: 'bold' }}>Analiza</div>
+             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span>💡 Motywy i Wątki</span>
+                  <span style={{ fontSize: '12px' }}>⭐</span>
+                </a>
+                <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span>📖 Analiza Literacka</span>
+                  <span style={{ fontSize: '12px' }}>⭐</span>
+                </a>
              </div>
-          </section>
+          </div>
 
-        </main>
+           {/* Extras Group */}
+           <div>
+             <div style={{ fontSize: '11px', textTransform: 'uppercase', color: '#999', letterSpacing: '1px', marginBottom: '12px', fontWeight: 'bold' }}>extras</div>
+             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  ❓ Quizy
+                </a>
+             </div>
+          </div>
 
-        <footer style={{ marginTop: '80px', fontSize: '0.9rem', color: '#888', textAlign: 'center', borderTop: '1px solid #E5E0D5', paddingTop: '40px' }}>
-          <p>Streszczenie wygenerowane przez sztuczną inteligencję Strescto.</p>
-          <p>&copy; 2025 Strescto. <a href="https://strescto.pl" style={{ color: '#232323' }}>Pobierz aplikację</a></p>
-        </footer>
+        </nav>
+
+        {/* Recommended Analysis (Banner) */}
+        <div style={{ marginTop: 'auto', paddingTop: '20px' }}>
+           <div style={{ fontSize: '10px', textTransform: 'uppercase', color: '#999', letterSpacing: '1px', marginBottom: '12px', fontWeight: 'bold' }}>REKOMENDOWANE ANALIZY</div>
+           <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+              <span style={{ color: '#E05D44', fontSize: '16px', marginTop: '2px' }}>✨</span>
+              <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#232323', lineHeight: '1.4' }}>
+                Konflikt romantyzmu i pozytywizmu w światopoglądzie Stanisława Wokulskiego
+              </span>
+              <span style={{ color: '#E05D44', fontSize: '16px' }}>⊕</span>
+           </a>
+        </div>
+      </aside>
+
+      {/* Main Content Area */}
+      <div style={{ flex: 1, marginLeft: '300px', maxWidth: '900px', padding: '60px 80px' }}>
+        
+        {/* Intro Paragraph */}
+        <div style={{ fontSize: '18px', lineHeight: '1.8', color: '#232323', marginBottom: '40px' }}>
+          <p>
+            {summary.teaser || `Powieść jest panoramicznym obrazem społeczeństwa, ukazującym konflikty społeczne, 
+            miłosne rozterki i marzenia o odnowie. Składa się z wielu wątków i łączy formy realistycznej powieści 
+            z elementami modernistycznymi. Poniżej przedstawiam szczegółowe streszczenie fabuły, 
+            analizę głównego tematu oraz szerszy kontekst literacki.`}
+          </p>
+        </div>
+
+        {/* Characters Section */}
+        <section style={{ marginBottom: '40px' }}>
+          <h2 style={{ fontSize: '24px', fontFamily: 'var(--font-fraunces)', fontWeight: 'bold', marginBottom: '20px', color: '#232323' }}>
+            ### Główne postacie
+          </h2>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+             {summary.characters.map((char, i) => (
+               <li key={i} style={{ marginBottom: '16px', fontSize: '16px', lineHeight: '1.6', color: '#232323', display: 'flex', alignItems: 'flex-start' }}>
+                 <span style={{ marginRight: '10px', marginTop: '8px', width: '6px', height: '6px', backgroundColor: '#232323', borderRadius: '50%', flexShrink: 0 }}></span>
+                 <span>
+                   <strong>{char.name}</strong>: {char.description}
+                 </span>
+               </li>
+             ))}
+             <li style={{ marginTop: '20px' }}>
+                <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ color: '#E05D44', fontWeight: 'bold', textDecoration: 'none', fontSize: '14px' }}>
+                  + Zobacz pozostałe postacie w aplikacji
+                </a>
+             </li>
+          </ul>
+        </section>
+
+        {/* Summary Content Section */}
+        <section>
+          <h2 style={{ fontSize: '24px', fontFamily: 'var(--font-fraunces)', fontWeight: 'bold', marginBottom: '20px', color: '#232323' }}>
+            ### Szczegółowe streszczenie fabuły (bez spoilerów kluczowych zwrotów)
+          </h2>
+          
+          <div style={{ position: 'relative' }}>
+             <div style={{ fontSize: '16px', lineHeight: '1.8', color: '#232323' }}>
+                <div dangerouslySetInnerHTML={{ __html: summary.summaryPreview.replace(/\n/g, '<br/><br/>') }} />
+             </div>
+             
+             {/* Fade Out Overlay */}
+             <div style={{ 
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: '250px',
+                background: 'linear-gradient(to bottom, rgba(242,240,233,0) 0%, rgba(242,240,233,1) 80%)',
+                display: 'flex',
+                alignItems: 'flex-end',
+                justifyContent: 'center',
+                paddingBottom: '0'
+              }}>
+             </div>
+          </div>
+          
+          {/* CTA Button Block - Positioned after text */}
+          <div style={{ 
+            marginTop: '0px', 
+            textAlign: 'center', 
+            padding: '30px', 
+            backgroundColor: '#fff', 
+            borderRadius: '16px', 
+            border: '1px solid rgba(0,0,0,0.05)',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.03)'
+          }}>
+             <h3 style={{ fontFamily: 'var(--font-fraunces)', fontSize: '20px', marginBottom: '8px' }}>Chcesz wiedzieć co było dalej?</h3>
+             <p style={{ color: '#666', marginBottom: '20px', fontSize: '14px' }}>To dopiero początek. W aplikacji czeka na Ciebie pełne streszczenie tom po tomie.</p>
+             <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{
+                display: 'inline-block',
+                backgroundColor: '#232323',
+                color: '#fff',
+                padding: '14px 32px',
+                borderRadius: '12px',
+                textDecoration: 'none',
+                fontWeight: 'bold',
+                fontSize: '16px'
+             }}>
+               Dokończ czytanie w aplikacji
+             </a>
+          </div>
+
+        </section>
+
       </div>
+
+      {/* Mobile Header (Visible only on mobile) */}
+      <style jsx global>{`
+        @media (max-width: 768px) {
+          aside { display: none !important; }
+          div[style*="marginLeft: '300px'"] { margin-left: 0 !important; padding: 20px !important; }
+        }
+      `}</style>
     </div>
   )
 }
