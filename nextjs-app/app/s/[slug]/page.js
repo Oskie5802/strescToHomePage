@@ -71,16 +71,16 @@ function processData(record) {
   
   // Process real content for UI
   const summarySection = json.custom_sections?.find(s => s.id === 'summary')
-  // Use first 30% of summary as free preview
+  // Use first 20% of summary as free preview (max 400 chars for better protection)
   const summaryContent = summarySection ? summarySection.content : ''
-  const summaryPreview = summaryContent.length > 500 
-      ? summaryContent.substring(0, 500) + '...' 
+  const summaryPreview = summaryContent.length > 400 
+      ? summaryContent.substring(0, 400) + '...' 
       : summaryContent
 
-  // Process characters (limit to 3 main ones for free view)
+  // Process characters (limit to 2 main ones for free view)
   const characters = (json.characters || [])
       .filter(c => c.role === 'Protagonist' || c.role === 'Antagonist')
-      .slice(0, 3)
+      .slice(0, 2)
       .map(c => ({
           name: c.name,
           role: c.role,
@@ -273,12 +273,18 @@ export default async function SummaryPage({ params }) {
                  <span style={{ width: '8px', height: '8px', backgroundColor: '#E05D44', borderRadius: '50%' }}></span>
                </div>
                
-               <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                 <Users size={18} /> Postacie
+               <a href={`https://app.strescto.pl/login?redirect=/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                 <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                   <Users size={18} /> Postacie
+                 </span>
+                 <span style={{ color: '#999' }}><HelpCircle size={14} /></span>
                </a>
                
-               <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                 <Activity size={18} /> Plan Wydarzeń
+               <a href={`https://app.strescto.pl/login?redirect=/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                 <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                   <Activity size={18} /> Plan Wydarzeń
+                 </span>
+                 <span style={{ color: '#999' }}><HelpCircle size={14} /></span>
                </a>
             </div>
           </div>
@@ -287,17 +293,17 @@ export default async function SummaryPage({ params }) {
           <div>
              <div style={{ fontSize: '11px', textTransform: 'uppercase', color: '#999', letterSpacing: '1px', marginBottom: '12px', fontWeight: 'bold' }}>Analiza</div>
              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <a href={`https://app.strescto.pl/login?redirect=/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <Lightbulb size={18} /> Motywy i Wątki
                   </span>
-                  <span style={{ fontSize: '12px' }}>⭐</span>
+                  <span style={{ fontSize: '12px' }}>🔒</span>
                 </a>
-                <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <a href={`https://app.strescto.pl/login?redirect=/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <BookOpen size={18} /> Analiza Literacka
                   </span>
-                  <span style={{ fontSize: '12px' }}>⭐</span>
+                  <span style={{ fontSize: '12px' }}>🔒</span>
                 </a>
              </div>
           </div>
@@ -306,8 +312,11 @@ export default async function SummaryPage({ params }) {
            <div>
              <div style={{ fontSize: '11px', textTransform: 'uppercase', color: '#999', letterSpacing: '1px', marginBottom: '12px', fontWeight: 'bold' }}>extras</div>
              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <HelpCircle size={18} /> Quizy
+                <a href={`https://app.strescto.pl/login?redirect=/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <HelpCircle size={18} /> Quizy
+                  </span>
+                  <span style={{ fontSize: '12px' }}>🔒</span>
                 </a>
              </div>
           </div>
@@ -317,7 +326,7 @@ export default async function SummaryPage({ params }) {
         {/* Recommended Analysis (Banner) */}
         <div style={{ marginTop: 'auto', paddingTop: '20px' }}>
            <div style={{ fontSize: '10px', textTransform: 'uppercase', color: '#999', letterSpacing: '1px', marginBottom: '12px', fontWeight: 'bold' }}>REKOMENDOWANE ANALIZY</div>
-           <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+           <a href={`https://app.strescto.pl/login?redirect=/book/${summary.fullContentId}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
               <span style={{ color: '#E05D44', marginTop: '2px' }}><Sparkles size={16} /></span>
               <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#232323', lineHeight: '1.4' }}>
                 Konflikt romantyzmu i pozytywizmu w światopoglądzie Stanisława Wokulskiego
@@ -355,7 +364,7 @@ export default async function SummaryPage({ params }) {
                </li>
              ))}
              <li style={{ marginTop: '20px' }}>
-                <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ color: '#E05D44', fontWeight: 'bold', textDecoration: 'none', fontSize: '14px' }}>
+                <a href={`https://app.strescto.pl/login?redirect=/book/${summary.fullContentId}`} style={{ color: '#E05D44', fontWeight: 'bold', textDecoration: 'none', fontSize: '14px' }}>
                   + Zobacz pozostałe postacie w aplikacji
                 </a>
              </li>
@@ -393,26 +402,51 @@ export default async function SummaryPage({ params }) {
           <div style={{ 
             marginTop: '0px', 
             textAlign: 'center', 
-            padding: '30px', 
+            padding: '40px 30px', 
             backgroundColor: '#fff', 
-            borderRadius: '16px', 
-            border: '1px solid rgba(0,0,0,0.05)',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.03)'
+            borderRadius: '24px', 
+            border: '1px solid rgba(0,0,0,0.08)',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.04)',
+            position: 'relative',
+            zIndex: 10
           }}>
-             <h3 style={{ fontFamily: 'var(--font-fraunces)', fontSize: '20px', marginBottom: '8px' }}>Chcesz wiedzieć co było dalej?</h3>
-             <p style={{ color: '#666', marginBottom: '20px', fontSize: '14px' }}>To dopiero początek. W aplikacji czeka na Ciebie pełne streszczenie tom po tomie.</p>
-             <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{
-                display: 'inline-block',
-                backgroundColor: '#232323',
-                color: '#fff',
-                padding: '14px 32px',
-                borderRadius: '12px',
-                textDecoration: 'none',
-                fontWeight: 'bold',
-                fontSize: '16px'
+             <div style={{ 
+               backgroundColor: '#E05D44', 
+               color: '#fff', 
+               display: 'inline-block', 
+               padding: '4px 12px', 
+               borderRadius: '20px', 
+               fontSize: '12px', 
+               fontWeight: 'bold', 
+               marginBottom: '16px',
+               textTransform: 'uppercase',
+               letterSpacing: '1px'
              }}>
-               Dokończ czytanie w aplikacji
-             </a>
+               Treść Chroniona
+             </div>
+             <h3 style={{ fontFamily: 'var(--font-fraunces)', fontSize: '24px', marginBottom: '12px', color: '#232323' }}>Chcesz poznać całą historię?</h3>
+             <p style={{ color: '#5D5D5D', marginBottom: '32px', fontSize: '16px', lineHeight: '1.6', maxWidth: '500px', margin: '0 auto 32px' }}>
+               Pełne streszczenie, plan wydarzeń, charakterystyka postaci oraz analiza motywów dostępne są wyłącznie w aplikacji Streść.to.
+             </p>
+             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
+               <a href={`https://app.strescto.pl/login?redirect=/book/${summary.fullContentId}`} style={{
+                  display: 'inline-block',
+                  backgroundColor: '#232323',
+                  color: '#fff',
+                  padding: '16px 40px',
+                  borderRadius: '16px',
+                  textDecoration: 'none',
+                  fontWeight: 'bold',
+                  fontSize: '18px',
+                  transition: 'transform 0.2s ease',
+                  boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
+               }}>
+                 Zaloguj się i czytaj dalej
+               </a>
+               <a href="https://app.strescto.pl" style={{ color: '#888', textDecoration: 'none', fontSize: '14px', fontWeight: '500' }}>
+                 Nie masz konta? Załóż je za darmo
+               </a>
+             </div>
           </div>
 
         </section>

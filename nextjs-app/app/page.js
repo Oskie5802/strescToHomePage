@@ -24,6 +24,9 @@ export default function Home() {
         "feat2.desc": "Każdy bohater dostaje swoją kartotekę. Zrozum powiązania, cechy charakteru i ukryte motywy. Streść.to tworzy mapę relacji, która sprawia, że nawet najtrudniejsze lektury stają się zrozumiałe.",
         "mockup.characters": "Postacie",
         "mockup.main": "Główni",
+        "feat3.title": "Interaktywne <br>Quizy i Testy",
+        "feat3.desc": "Sprawdź swoją wiedzę po każdej lekturze. Nasze quizy pomagają utrwalić najważniejsze fakty i motywy, przygotowując Cię do sprawdzianów i matury w mgnieniu oka.",
+        "mockup.quizzes": "Quizy",
         "footer.title": "Gotowy na czystą wiedzę?",
         "btn.download": "Pobierz Aplikację"
       },
@@ -44,6 +47,9 @@ export default function Home() {
         "feat2.desc": "Every character gets a file. Understand relationships, traits, and hidden motives. Streść.to creates a relationship map that makes even the most complex readings clear.",
         "mockup.characters": "Characters",
         "mockup.main": "Main",
+        "feat3.title": "Interactive <br>Quizzes & Tests",
+        "feat3.desc": "Test your knowledge after every reading. Our quizzes help you memorize key facts and themes, preparing you for exams and finals in no time.",
+        "mockup.quizzes": "Quizzes",
         "footer.title": "Ready for pure knowledge?",
         "btn.download": "Download App"
       }
@@ -158,7 +164,7 @@ export default function Home() {
 
         /* --- NAV & LANG SWITCHER --- */
         nav {
-            padding: 32px 0;
+            padding: 48px 0 32px 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -216,17 +222,25 @@ export default function Home() {
 
         /* --- HERO SECTION --- */
         .hero {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            min-height: 80vh;
-            padding-bottom: 80px;
+            text-align: center;
+            min-height: 100vh;
+            padding: 80px 0;
+            gap: 60px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .hero-content h1 {
             font-family: var(--font-serif);
-            font-size: clamp(3rem, 5vw, 4.5rem);
+            font-size: clamp(3rem, 6vw, 5rem);
             line-height: 1.1;
             font-weight: 300;
             margin-bottom: 24px;
@@ -240,10 +254,11 @@ export default function Home() {
         }
 
         .hero-content p {
-            font-size: 1.125rem;
+            font-size: 1.25rem;
             color: var(--text-secondary);
-            max-width: 480px;
+            max-width: 600px;
             margin-bottom: 40px;
+            line-height: 1.6;
         }
 
         .btn-group { display: flex; gap: 16px; flex-wrap: wrap; }
@@ -276,8 +291,9 @@ export default function Home() {
 
         /* HERO IMAGE - 3D Mockup */
         .hero-visual {
-            position: relative;
-            perspective: 1000px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
         }
 
         .phone-mockup {
@@ -385,6 +401,23 @@ export default function Home() {
         .char-name { height: 12px; width: 70%; background: var(--ink); margin: 0 auto 8px; border-radius: 4px; }
         .char-role { height: 8px; width: 50%; background: #bbb; margin: 0 auto; border-radius: 4px; }
 
+        /* Quizzes UI */
+        .quiz-ui { display: flex; flex-direction: column; gap: 12px; }
+        .quiz-question { height: 14px; width: 80%; background: var(--ink); margin-bottom: 12px; border-radius: 4px; }
+        .quiz-option { 
+            background: var(--paper); 
+            padding: 12px; 
+            border-radius: 10px; 
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .quiz-check { width: 16px; height: 16px; border: 2px solid var(--border); border-radius: 50%; }
+        .quiz-option.correct { border-color: var(--forest-green); background: rgba(45, 106, 79, 0.05); }
+        .quiz-option.correct .quiz-check { background: var(--forest-green); border-color: var(--forest-green); }
+        .quiz-text { height: 8px; width: 60%; background: #ccc; border-radius: 4px; }
+
         .reveal-on-scroll { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
         .reveal-on-scroll.visible { opacity: 1; transform: translateY(0); }
         .screen-container:hover .app-screen { transform: translateY(-10px) rotateX(5deg); }
@@ -402,8 +435,50 @@ export default function Home() {
         }
         .footer-cta h2 { font-family: var(--font-serif); font-size: 3rem; margin-bottom: 32px; }
 
+        /* Showcase Layout */
+        .showcase-grid {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            position: relative;
+            padding: 60px 0;
+        }
+        .web-screen-mockup {
+            width: 400px;
+            height: 300px;
+            background: var(--surface);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.4s ease;
+        }
+        .web-screen-mockup:hover { transform: translateY(-10px); }
+        .web-header {
+            height: 24px;
+            background: #F5F5F5;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            gap: 6px;
+        }
+        .web-dot { width: 6px; height: 6px; border-radius: 50%; background: #ddd; }
+        .web-content { padding: 20px; }
+
+        @media (max-width: 1100px) {
+            .showcase-grid { flex-direction: column; gap: 60px; }
+            .web-screen-mockup { width: 100%; max-width: 500px; height: auto; min-height: 300px; transform: none !important; }
+            .phone-mockup { order: -1; }
+        }
+
         @media (max-width: 900px) {
-            .hero, .feature-section { grid-template-columns: 1fr; gap: 40px; }
+            nav { padding: 32px 16px; }
+            .hero { padding: 60px 16px; min-height: auto; }
+            .feature-section { padding: 60px 16px; gap: 40px; }
+            .hero, .feature-section { grid-template-columns: 1fr; }
             .feature-section.reversed { direction: ltr; }
             .hero-visual { display: flex; justify-content: center; margin-top: 40px; }
             .phone-mockup { transform: rotateY(0) rotateZ(0); }
@@ -461,32 +536,64 @@ export default function Home() {
         </div>
 
         <div className="hero-visual">
-            <div className="phone-mockup">
-                <div className="ui-header" data-i18n="nav.logo_plain">Streść.to</div>
-                <div className="ui-content">
-                    <div className="mockup-search">
-                        <div className="mockup-search-icon"></div>
-                        <div className="mockup-search-text"></div>
+            <div className="showcase-grid">
+                {/* 1. Web Mockup: Characters */}
+                <div className="web-screen-mockup reveal-on-scroll" style={{transform: 'rotateY(10deg) rotateX(5deg)'}}>
+                    <div className="web-header">
+                        <div className="web-dot"></div><div className="web-dot"></div><div className="web-dot"></div>
+                        <div style={{fontSize: '8px', color: '#999', marginLeft: 'auto'}} data-i18n="mockup.characters">Postacie</div>
                     </div>
-                    
-                    <div className="mockup-btn-gen">Generuj Streszczenie</div>
-
-                    <div style={{fontSize: '0.7rem', color: '#999', marginBottom: '10px', fontWeight: 700}}>POPULARNE</div>
-                    
-                    <div className="ui-card">
-                        <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '8px'}}>
-                            <div className="ui-line short" style={{background: 'var(--ink)', height: '10px', width: '40%'}}></div>
-                            <div style={{width: '20px', height: '10px', background: '#eee', borderRadius: '4px'}}></div>
+                    <div className="web-content">
+                        <div className="chars-grid">
+                            <div className="char-card">
+                                <div className="char-avatar"></div>
+                                <div className="char-name"></div>
+                                <div className="char-role"></div>
+                            </div>
+                            <div className="char-card">
+                                <div className="char-avatar" style={{backgroundColor: 'var(--burnt-orange)'}}></div>
+                                <div className="char-name"></div>
+                                <div className="char-role"></div>
+                            </div>
                         </div>
-                        <div className="ui-line" style={{marginBottom: 0, height: '6px'}}></div>
                     </div>
+                </div>
 
-                    <div className="ui-card">
-                        <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '8px'}}>
-                            <div className="ui-line short" style={{background: 'var(--ink)', height: '10px', width: '60%'}}></div>
-                            <div style={{width: '20px', height: '10px', background: '#eee', borderRadius: '4px'}}></div>
+                {/* 2. Phone Mockup: Central */}
+                <div className="phone-mockup">
+                    <div className="ui-header" data-i18n="nav.logo_plain">Streść.to</div>
+                    <div className="ui-content">
+                        <div className="mockup-search">
+                            <div className="mockup-search-icon"></div>
+                            <div className="mockup-search-text"></div>
                         </div>
-                        <div className="ui-line" style={{marginBottom: 0, height: '6px'}}></div>
+                        <div className="mockup-btn-gen">Generuj Streszczenie</div>
+                        <div className="ui-card">
+                            <div className="ui-line title"></div>
+                            <div className="ui-line"></div>
+                            <div className="ui-line short"></div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 3. Web Mockup: Quizzes */}
+                <div className="web-screen-mockup reveal-on-scroll" style={{transform: 'rotateY(-10deg) rotateX(5deg)'}}>
+                    <div className="web-header">
+                        <div className="web-dot"></div><div className="web-dot"></div><div className="web-dot"></div>
+                        <div style={{fontSize: '8px', color: '#999', marginLeft: 'auto'}} data-i18n="mockup.quizzes">Quizy</div>
+                    </div>
+                    <div className="web-content">
+                        <div className="quiz-ui">
+                            <div className="quiz-question"></div>
+                            <div className="quiz-option correct">
+                                <div className="quiz-check"></div>
+                                <div className="quiz-text"></div>
+                            </div>
+                            <div className="quiz-option">
+                                <div className="quiz-check"></div>
+                                <div className="quiz-text"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -567,6 +674,35 @@ export default function Home() {
                             <div className="char-avatar" style={{background: 'var(--ink)'}}></div>
                             <div className="char-name"></div>
                             <div className="char-role"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </section>
+
+      <section className="container feature-section reveal-on-scroll">
+        <div className="feature-text">
+            <h2 data-i18n="feat3.title">Interaktywne <br/>Quizy i Testy</h2>
+            <p data-i18n="feat3.desc">Sprawdź swoją wiedzę po każdej lekturze. Nasze quizy pomagają utrwalić najważniejsze fakty i motywy, przygotowując Cię do sprawdzianów i matury w mgnieniu oka.</p>
+        </div>
+        <div className="feature-visual">
+            <div className="screen-container">
+                <div className="screen-decor"></div>
+                <div className="app-screen">
+                    <div className="quiz-ui" style={{padding: '20px'}}>
+                        <div className="quiz-question" style={{height: '20px', marginBottom: '24px'}}></div>
+                        <div className="quiz-option correct" style={{padding: '16px', marginBottom: '12px'}}>
+                            <div className="quiz-check"></div>
+                            <div className="quiz-text" style={{width: '70%', height: '10px'}}></div>
+                        </div>
+                        <div className="quiz-option" style={{padding: '16px', marginBottom: '12px'}}>
+                            <div className="quiz-check"></div>
+                            <div className="quiz-text" style={{width: '50%', height: '10px'}}></div>
+                        </div>
+                        <div className="quiz-option" style={{padding: '16px'}}>
+                            <div className="quiz-check"></div>
+                            <div className="quiz-text" style={{width: '60%', height: '10px'}}></div>
                         </div>
                     </div>
                 </div>

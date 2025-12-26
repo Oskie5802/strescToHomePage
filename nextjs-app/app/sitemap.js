@@ -1,5 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 
+export const revalidate = 0 // Disable caching to ensure sitemap is always up-to-date
+
 export default async function sitemap() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
