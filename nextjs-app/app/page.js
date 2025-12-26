@@ -363,6 +363,13 @@ export default function Home() {
             margin-bottom: 32px;
         }
 
+        .feature-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1200px;
+        }
+
         /* --- SCREENSHOTS --- */
         .screen-container {
             position: relative;
@@ -436,16 +443,9 @@ export default function Home() {
         .footer-cta h2 { font-family: var(--font-serif); font-size: 3rem; margin-bottom: 32px; }
 
         /* Showcase Layout */
-        .showcase-grid {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 40px;
-            position: relative;
-            padding: 60px 0;
-        }
         .web-screen-mockup {
-            width: 400px;
+            width: 100%;
+            max-width: 400px;
             height: 300px;
             background: var(--surface);
             border-radius: 12px;
@@ -454,6 +454,7 @@ export default function Home() {
             overflow: hidden;
             position: relative;
             transition: transform 0.4s ease;
+            perspective: 1000px;
         }
         .web-screen-mockup:hover { transform: translateY(-10px); }
         .web-header {
@@ -536,64 +537,18 @@ export default function Home() {
         </div>
 
         <div className="hero-visual">
-            <div className="showcase-grid">
-                {/* 1. Web Mockup: Characters */}
-                <div className="web-screen-mockup reveal-on-scroll" style={{transform: 'rotateY(10deg) rotateX(5deg)'}}>
-                    <div className="web-header">
-                        <div className="web-dot"></div><div className="web-dot"></div><div className="web-dot"></div>
-                        <div style={{fontSize: '8px', color: '#999', marginLeft: 'auto'}} data-i18n="mockup.characters">Postacie</div>
+            <div className="phone-mockup">
+                <div className="ui-header" data-i18n="nav.logo_plain">Streść.to</div>
+                <div className="ui-content">
+                    <div className="mockup-search">
+                        <div className="mockup-search-icon"></div>
+                        <div className="mockup-search-text"></div>
                     </div>
-                    <div className="web-content">
-                        <div className="chars-grid">
-                            <div className="char-card">
-                                <div className="char-avatar"></div>
-                                <div className="char-name"></div>
-                                <div className="char-role"></div>
-                            </div>
-                            <div className="char-card">
-                                <div className="char-avatar" style={{backgroundColor: 'var(--burnt-orange)'}}></div>
-                                <div className="char-name"></div>
-                                <div className="char-role"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* 2. Phone Mockup: Central */}
-                <div className="phone-mockup">
-                    <div className="ui-header" data-i18n="nav.logo_plain">Streść.to</div>
-                    <div className="ui-content">
-                        <div className="mockup-search">
-                            <div className="mockup-search-icon"></div>
-                            <div className="mockup-search-text"></div>
-                        </div>
-                        <div className="mockup-btn-gen">Generuj Streszczenie</div>
-                        <div className="ui-card">
-                            <div className="ui-line title"></div>
-                            <div className="ui-line"></div>
-                            <div className="ui-line short"></div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* 3. Web Mockup: Quizzes */}
-                <div className="web-screen-mockup reveal-on-scroll" style={{transform: 'rotateY(-10deg) rotateX(5deg)'}}>
-                    <div className="web-header">
-                        <div className="web-dot"></div><div className="web-dot"></div><div className="web-dot"></div>
-                        <div style={{fontSize: '8px', color: '#999', marginLeft: 'auto'}} data-i18n="mockup.quizzes">Quizy</div>
-                    </div>
-                    <div className="web-content">
-                        <div className="quiz-ui">
-                            <div className="quiz-question"></div>
-                            <div className="quiz-option correct">
-                                <div className="quiz-check"></div>
-                                <div className="quiz-text"></div>
-                            </div>
-                            <div className="quiz-option">
-                                <div className="quiz-check"></div>
-                                <div className="quiz-text"></div>
-                            </div>
-                        </div>
+                    <div className="mockup-btn-gen">Generuj Streszczenie</div>
+                    <div className="ui-card">
+                        <div className="ui-line title"></div>
+                        <div className="ui-line"></div>
+                        <div className="ui-line short"></div>
                     </div>
                 </div>
             </div>
@@ -607,32 +562,25 @@ export default function Home() {
             <div style={{fontFamily: 'var(--font-serif)', color: 'var(--burnt-orange)', fontStyle: 'italic'}} data-i18n="feat1.quote">"Kto co zrobił i kiedy?" – teraz już wiesz.</div>
         </div>
         <div className="feature-visual">
-            <div className="screen-container">
-                <div className="screen-decor"></div>
-                <div className="app-screen" style={{transform: 'rotate(-2deg)'}}>
+            <div className="web-screen-mockup" style={{transform: 'rotateY(10deg) rotateX(5deg)'}}>
+                <div className="web-header">
+                    <div className="web-dot"></div><div className="web-dot"></div><div className="web-dot"></div>
+                    <div style={{fontSize: '8px', color: '#999', marginLeft: 'auto'}} data-i18n="mockup.timeline">Oś czasu</div>
+                </div>
+                <div className="web-content">
                     <div className="timeline-ui">
-                        <div style={{fontWeight: 700, fontSize: '1.2rem', marginBottom: '10px'}} data-i18n="mockup.timeline">Oś czasu: Rozdział IV</div>
-                        
                         <div className="timeline-item">
                             <div className="t-dot"></div>
                             <div className="t-content">
-                                <div className="t-title"></div>
-                                <div className="t-desc"></div>
-                                <div className="t-desc" style={{width: '60%'}}></div>
-                            </div>
-                        </div>
-                        <div className="timeline-item">
-                            <div className="t-dot"></div>
-                            <div className="t-content">
-                                <div className="t-title" style={{width: '50%'}}></div>
-                                <div className="t-desc"></div>
+                                <div className="t-title" style={{height: '10px', width: '60%'}}></div>
+                                <div className="t-desc" style={{height: '6px', width: '80%'}}></div>
                             </div>
                         </div>
                         <div className="timeline-item">
                             <div className="t-dot" style={{background: 'var(--ink)'}}></div>
                             <div className="t-content">
-                                <div className="t-title" style={{width: '30%'}}></div>
-                                <div className="t-desc"></div>
+                                <div className="t-title" style={{height: '10px', width: '40%'}}></div>
+                                <div className="t-desc" style={{height: '6px', width: '70%'}}></div>
                             </div>
                         </div>
                     </div>
@@ -647,13 +595,12 @@ export default function Home() {
             <p data-i18n="feat2.desc">Każdy bohater dostaje swoją kartotekę. Zrozum powiązania, cechy charakteru i ukryte motywy. Streść.to tworzy mapę relacji, która sprawia, że nawet "Wesele" staje się zrozumiałe.</p>
         </div>
         <div className="feature-visual">
-            <div className="screen-container">
-                <div className="screen-decor" style={{transform: 'rotate(3deg)', top: '10px', left: '-10px'}}></div>
-                <div className="app-screen" style={{transform: 'rotate(2deg)'}}>
-                     <div style={{fontWeight: 700, fontSize: '1.2rem', marginBottom: '20px', display: 'flex', justifyContent: 'space-between'}}>
-                        <span data-i18n="mockup.characters">Postacie</span>
-                        <span style={{fontSize: '0.8rem', color: 'var(--forest-green)', border: '1px solid currentColor', padding: '2px 8px', borderRadius: '12px'}} data-i18n="mockup.main">Główni</span>
-                     </div>
+            <div className="web-screen-mockup" style={{transform: 'rotateY(-10deg) rotateX(5deg)'}}>
+                <div className="web-header">
+                    <div className="web-dot"></div><div className="web-dot"></div><div className="web-dot"></div>
+                    <div style={{fontSize: '8px', color: '#999', marginLeft: 'auto'}} data-i18n="mockup.characters">Postacie</div>
+                </div>
+                <div className="web-content">
                     <div className="chars-grid">
                         <div className="char-card">
                             <div className="char-avatar"></div>
@@ -661,17 +608,12 @@ export default function Home() {
                             <div className="char-role"></div>
                         </div>
                         <div className="char-card">
-                            <div className="char-avatar" style={{background: 'var(--burnt-orange)'}}></div>
+                            <div className="char-avatar" style={{backgroundColor: 'var(--burnt-orange)'}}></div>
                             <div className="char-name"></div>
                             <div className="char-role"></div>
                         </div>
                         <div className="char-card">
-                            <div className="char-avatar" style={{background: '#ddd'}}></div>
-                            <div className="char-name"></div>
-                            <div className="char-role"></div>
-                        </div>
-                        <div className="char-card">
-                            <div className="char-avatar" style={{background: 'var(--ink)'}}></div>
+                            <div className="char-avatar" style={{backgroundColor: '#ddd'}}></div>
                             <div className="char-name"></div>
                             <div className="char-role"></div>
                         </div>
@@ -687,22 +629,25 @@ export default function Home() {
             <p data-i18n="feat3.desc">Sprawdź swoją wiedzę po każdej lekturze. Nasze quizy pomagają utrwalić najważniejsze fakty i motywy, przygotowując Cię do sprawdzianów i matury w mgnieniu oka.</p>
         </div>
         <div className="feature-visual">
-            <div className="screen-container">
-                <div className="screen-decor"></div>
-                <div className="app-screen">
-                    <div className="quiz-ui" style={{padding: '20px'}}>
-                        <div className="quiz-question" style={{height: '20px', marginBottom: '24px'}}></div>
-                        <div className="quiz-option correct" style={{padding: '16px', marginBottom: '12px'}}>
+            <div className="web-screen-mockup" style={{transform: 'rotateY(10deg) rotateX(5deg)'}}>
+                <div className="web-header">
+                    <div className="web-dot"></div><div className="web-dot"></div><div className="web-dot"></div>
+                    <div style={{fontSize: '8px', color: '#999', marginLeft: 'auto'}} data-i18n="mockup.quizzes">Quizy</div>
+                </div>
+                <div className="web-content">
+                    <div className="quiz-ui">
+                        <div className="quiz-question" style={{height: '14px', marginBottom: '16px'}}></div>
+                        <div className="quiz-option correct" style={{padding: '12px', marginBottom: '8px'}}>
                             <div className="quiz-check"></div>
-                            <div className="quiz-text" style={{width: '70%', height: '10px'}}></div>
+                            <div className="quiz-text" style={{width: '70%', height: '8px'}}></div>
                         </div>
-                        <div className="quiz-option" style={{padding: '16px', marginBottom: '12px'}}>
+                        <div className="quiz-option" style={{padding: '12px', marginBottom: '8px'}}>
                             <div className="quiz-check"></div>
-                            <div className="quiz-text" style={{width: '50%', height: '10px'}}></div>
+                            <div className="quiz-text" style={{width: '50%', height: '8px'}}></div>
                         </div>
-                        <div className="quiz-option" style={{padding: '16px'}}>
+                        <div className="quiz-option" style={{padding: '12px'}}>
                             <div className="quiz-check"></div>
-                            <div className="quiz-text" style={{width: '60%', height: '10px'}}></div>
+                            <div className="quiz-text" style={{width: '60%', height: '8px'}}></div>
                         </div>
                     </div>
                 </div>
