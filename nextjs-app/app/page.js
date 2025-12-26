@@ -4,24 +4,7 @@ import { useEffect } from 'react'
 import Link from 'next/link'
 
 export default function Home() {
-  const [essayState, setEssayState] = useState('idle'); // 'idle' | 'generating' | 'result'
-
-  const handleEssayGenerate = (e) => {
-    e.preventDefault();
-    setEssayState('generating');
-    // Simulate generation time
-    setTimeout(() => {
-        setEssayState('result');
-    }, 2000);
-   };
-
-   useEffect(() => {
-     // Re-apply translations when essay state changes (UI updates)
-     const lang = localStorage.getItem('strescto_lang') || 'pl';
-     if (window.setLanguage) window.setLanguage(lang);
-   }, [essayState]);
- 
-    useEffect(() => {
+  useEffect(() => {
     // --- INTERNATIONALIZATION (i18n) LOGIC ---
     const translations = {
       pl: {
@@ -47,12 +30,6 @@ export default function Home() {
         "feat4.desc": "Generuj gotowe argumenty, tezy i konteksty do Twojej rozprawki. Zrozum, jak wykorzystać lekturę w tematach maturalnych.",
         "mockup.quizzes": "Quizy",
         "mockup.essay": "Rozprawka",
-        "essay.placeholder": "Wpisz temat rozprawki...",
-        "essay.btn_generate": "Generuj",
-        "essay.generating": "Analizowanie lektury...",
-        "essay.section_tips": "Wskazówki",
-        "essay.section_examples": "Przykłady",
-        "essay.section_excerpts": "Wycinki",
         "footer.title": "Gotowy na czystą wiedzę?",
         "btn.download": "Pobierz Aplikację"
       },
@@ -79,12 +56,6 @@ export default function Home() {
         "feat4.desc": "Generate ready-made arguments, thesis statements, and contexts for your essay. Understand how to use the book in exam topics.",
         "mockup.quizzes": "Quizzes",
         "mockup.essay": "Essay",
-        "essay.placeholder": "Enter essay topic...",
-        "essay.btn_generate": "Generate",
-        "essay.generating": "Analyzing book...",
-        "essay.section_tips": "Tips",
-        "essay.section_examples": "Examples",
-        "essay.section_excerpts": "Excerpts",
         "footer.title": "Ready for pure knowledge?",
         "btn.download": "Download App"
       }
@@ -551,77 +522,6 @@ export default function Home() {
             background: var(--ink); color: #fff; text-align: center; padding: 12px; border-radius: 12px; font-weight: bold; font-size: 0.8rem; margin-bottom: 24px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-
-        /* --- ESSAY HELPER ANIMATIONS & UI --- */
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .essay-ui { display: flex; flex-direction: column; gap: 12px; min-height: 200px; }
-        
-        /* Idle State */
-        .essay-input-group {
-            display: flex; gap: 8px; margin-bottom: 8px;
-            animation: slideUp 0.3s ease-out;
-        }
-        .essay-input {
-            flex: 1; border: 1px solid var(--border); border-radius: 8px; padding: 8px; 
-            font-size: 10px; background: #fff; color: var(--text-secondary);
-            font-family: var(--font-sans);
-        }
-        .essay-btn {
-            background: var(--ink); color: #fff; border: none; border-radius: 8px; 
-            padding: 0 12px; font-size: 10px; cursor: pointer;
-            transition: transform 0.1s, background 0.2s;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .essay-btn:hover { background: #000; }
-        .essay-btn:active { transform: scale(0.95); }
-
-        /* Generating State */
-        .essay-loading {
-            display: flex; flex-direction: column; gap: 8px; padding: 20px 0;
-        }
-        .loading-text {
-            font-size: 10px; color: var(--text-secondary); text-align: center; margin-bottom: 4px;
-        }
-        .loading-bar {
-            width: 100%; height: 6px; border-radius: 3px;
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite linear;
-        }
-        .loading-bar.w-80 { width: 80%; }
-        .loading-bar.w-60 { width: 60%; }
-
-        /* Result State */
-        .essay-section {
-            opacity: 0;
-            animation: slideUp 0.5s ease-out forwards;
-        }
-        .essay-section:nth-child(1) { animation-delay: 0.1s; }
-        .essay-section:nth-child(2) { animation-delay: 0.3s; }
-        .essay-section:nth-child(3) { animation-delay: 0.5s; }
-
-        .essay-section-header {
-            font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
-            color: var(--ink); margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
-        }
-        .essay-dot { width: 6px; height: 6px; border-radius: 50%; }
-        
-        .essay-card {
-            background: var(--paper); padding: 10px; border-radius: 8px; 
-            border: 1px solid var(--border); font-size: 9px; line-height: 1.5; color: var(--text-secondary);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-        }
-        .essay-highlight {
-            background: rgba(224, 93, 68, 0.1); padding: 2px 4px; border-radius: 4px; color: var(--burnt-orange);
-        }
       `}</style>
 
       <nav className="container">
@@ -782,65 +682,24 @@ export default function Home() {
                 </div>
                 <div className="web-content">
                     <div className="essay-ui">
-                        {essayState === 'idle' && (
-                            <div style={{display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center'}}>
-                                <div className="essay-input-group">
-                                    <input className="essay-input" placeholder="Lalka, motyw miłości..." data-i18n="essay.placeholder" readOnly />
-                                    <button onClick={handleEssayGenerate} className="essay-btn" data-i18n="essay.btn_generate">Generuj</button>
-                                </div>
-                                <div style={{opacity: 0.5, transform: 'scale(0.9)', filter: 'blur(1px)'}}>
-                                     <div className="essay-block" style={{marginBottom: '10px'}}>
-                                        <div className="essay-label" style={{width: '40px', background: '#ccc'}}></div>
-                                        <div className="essay-line" style={{width: '90%'}}></div>
-                                        <div className="essay-line"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                        
-                        {essayState === 'generating' && (
-                            <div className="essay-loading">
-                                <div className="loading-text" data-i18n="essay.generating">Analizowanie...</div>
-                                <div className="loading-bar"></div>
-                                <div className="loading-bar w-80"></div>
-                                <div className="loading-bar w-60"></div>
-                            </div>
-                        )}
-
-                        {essayState === 'result' && (
-                            <>
-                                <div className="essay-section">
-                                    <div className="essay-section-header">
-                                        <div className="essay-dot" style={{background: 'var(--forest-green)'}}></div>
-                                        <span data-i18n="essay.section_tips">Wskazówki</span>
-                                    </div>
-                                    <div className="essay-card">
-                                        Pamiętaj o zdefiniowaniu miłości romantycznej vs pozytywistycznej. Wokulski to <span className="essay-highlight">romantyk w działaniu</span>.
-                                    </div>
-                                </div>
-
-                                <div className="essay-section">
-                                    <div className="essay-section-header">
-                                        <div className="essay-dot" style={{background: 'var(--burnt-orange)'}}></div>
-                                        <span data-i18n="essay.section_examples">Przykłady</span>
-                                    </div>
-                                    <div className="essay-card">
-                                        Relacja z Izabelą Łęcką jako przykład niszczącej siły uczucia i idealizacji obiektu westchnień.
-                                    </div>
-                                </div>
-
-                                <div className="essay-section">
-                                    <div className="essay-section-header">
-                                        <div className="essay-dot" style={{background: 'var(--ink)'}}></div>
-                                        <span data-i18n="essay.section_excerpts">Wycinki</span>
-                                    </div>
-                                    <div className="essay-card">
-                                        "Kto kocha, ten ma prawo żądać wszystkiego..." - cytat idealny do tezy o poświęceniu.
-                                    </div>
-                                </div>
-                                <button onClick={() => setEssayState('idle')} style={{marginTop: 'auto', alignSelf: 'center', background: 'none', border: 'none', color: '#999', fontSize: '9px', cursor: 'pointer', textDecoration: 'underline'}}>Reset</button>
-                            </>
-                        )}
+                        <div style={{display: 'flex', gap: '8px', marginBottom: '12px'}}>
+                            <div style={{padding: '4px 8px', borderRadius: '12px', border: '1px solid var(--ink)', fontSize: '8px'}}>Tezy</div>
+                            <div style={{padding: '4px 8px', borderRadius: '12px', background: 'var(--ink)', color: '#fff', fontSize: '8px'}}>Argumenty</div>
+                            <div style={{padding: '4px 8px', borderRadius: '12px', border: '1px solid var(--ink)', fontSize: '8px'}}>Kontekst</div>
+                        </div>
+                        <div className="essay-block">
+                            <div className="essay-label" style={{width: '40px', background: 'var(--forest-green)'}}></div>
+                            <div className="essay-line" style={{height: '8px', width: '90%', marginBottom: '12px'}}></div>
+                            <div className="essay-line"></div>
+                            <div className="essay-line"></div>
+                            <div className="essay-line short"></div>
+                        </div>
+                        <div className="essay-block">
+                            <div className="essay-label" style={{width: '60px', background: 'var(--burnt-orange)'}}></div>
+                            <div className="essay-line" style={{height: '8px', width: '80%', marginBottom: '12px'}}></div>
+                            <div className="essay-line"></div>
+                            <div className="essay-line short"></div>
+                        </div>
                     </div>
                 </div>
             </div>
