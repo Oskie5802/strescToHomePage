@@ -13,11 +13,20 @@ const manrope = Manrope({
 })
 
 export const metadata = {
-  title: 'Strescto - Streszczenia Lektur',
-  description: 'Twoje centrum streszczeń lektur. Szybko, konkretnie i na temat.',
+  title: 'Strescto - Streszczenia Lektur, Plany Wydarzeń i Opracowania',
+  description: 'Twoje centrum streszczeń lektur. Szybko, konkretnie i na temat. Znajdź plany wydarzeń, charakterystyki postaci i motywy literackie.',
+  keywords: ['streszczenia', 'lektury', 'plan wydarzeń', 'charakterystyka', 'matura', 'egzamin ósmoklasisty', 'strescto', 'opracowania'],
   icons: {
     icon: '/icon.png',
     apple: '/apple-icon.png',
+  },
+  openGraph: {
+    title: 'Strescto - Twoje streszczenia AI',
+    description: 'Najlepsze streszczenia lektur szkolnych. Ucz się szybciej z Strescto.',
+    url: 'https://strescto.pl',
+    siteName: 'Strescto',
+    locale: 'pl_PL',
+    type: 'website',
   },
 }
 
