@@ -1,9 +1,11 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 export default function Home() {
+  const [currentLang, setCurrentLang] = useState('pl');
+
   useEffect(() => {
     // --- INTERNATIONALIZATION (i18n) LOGIC ---
     const translations = {
@@ -22,6 +24,7 @@ export default function Home() {
         "mockup.timeline": "Oś czasu: Rozdział IV",
         "feat2.title": "Profile i <br>Motywacje Postaci",
         "feat2.desc": "Każdy bohater dostaje swoją kartotekę. Zrozum powiązania, cechy charakteru i ukryte motywy. Streść.to tworzy mapę relacji, która sprawia, że nawet najtrudniejsze lektury stają się zrozumiałe.",
+        "feat2.name": "Wokulski",
         "mockup.characters": "Postacie",
         "mockup.main": "Główni",
         "feat3.title": "Interaktywne <br>Quizy i Testy",
@@ -48,6 +51,7 @@ export default function Home() {
         "mockup.timeline": "Timeline: Chapter IV",
         "feat2.title": "Profiles & <br>Character Motivations",
         "feat2.desc": "Every character gets a file. Understand relationships, traits, and hidden motives. Streść.to creates a relationship map that makes even the most complex readings clear.",
+        "feat2.name": "Gatsby",
         "mockup.characters": "Characters",
         "mockup.main": "Main",
         "feat3.title": "Interactive <br>Quizzes & Tests",
@@ -64,6 +68,7 @@ export default function Home() {
     function setLanguage(lang) {
       // 1. Save choice
       localStorage.setItem('strescto_lang', lang);
+      setCurrentLang(lang);
       
       // 2. Update buttons (styling)
       document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -552,19 +557,11 @@ export default function Home() {
 
         <div className="hero-visual">
             <div className="phone-mockup">
-                <div className="ui-header" data-i18n="nav.logo_plain">Streść.to</div>
-                <div className="ui-content">
-                    <div className="mockup-search">
-                        <div className="mockup-search-icon"></div>
-                        <div className="mockup-search-text"></div>
-                    </div>
-                    <div className="mockup-btn-gen">Generuj Streszczenie</div>
-                    <div className="ui-card">
-                        <div className="ui-line title"></div>
-                        <div className="ui-line"></div>
-                        <div className="ui-line short"></div>
-                    </div>
-                </div>
+                {currentLang === 'pl' ? (
+                  <img src="/pl.jpeg" alt="Streść.to Polish" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                ) : (
+                  <img src="/en.jpeg" alt="Summarize.it English" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                )}
             </div>
         </div>
       </header>

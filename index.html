@@ -362,34 +362,8 @@
         </div>
 
         <div class="hero-visual">
-            <div class="phone-mockup">
-                <div class="ui-header" data-i18n="nav.logo_plain">Streść.to</div>
-                <div class="ui-content">
-                    <div class="mockup-search">
-                        <div class="mockup-search-icon"></div>
-                        <div class="mockup-search-text"></div>
-                    </div>
-                    
-                    <div class="mockup-btn-gen">Generuj Streszczenie</div>
-
-                    <div style="font-size: 0.7rem; color: #999; margin-bottom: 10px; font-weight: 700;">POPULARNE</div>
-                    
-                    <div class="ui-card">
-                        <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
-                            <div class="ui-line short" style="background:var(--ink); height: 10px; width: 40%;"></div>
-                            <div style="width: 20px; height: 10px; background: #eee; border-radius: 4px;"></div>
-                        </div>
-                        <div class="ui-line" style="margin-bottom:0; height: 6px;"></div>
-                    </div>
-
-                    <div class="ui-card">
-                        <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
-                            <div class="ui-line short" style="background:var(--ink); height: 10px; width: 60%;"></div>
-                            <div style="width: 20px; height: 10px; background: #eee; border-radius: 4px;"></div>
-                        </div>
-                        <div class="ui-line" style="margin-bottom:0; height: 6px;"></div>
-                    </div>
-                </div>
+            <div class="phone-mockup" id="phone-mockup">
+                <!-- Image will be injected here by JS -->
             </div>
         </div>
     </header>
@@ -552,6 +526,14 @@
                     el.innerHTML = translations[lang][key];
                 }
             });
+
+            // 4. Swap phone mockup image
+            const phoneMockup = document.getElementById('phone-mockup');
+            if (phoneMockup) {
+                const imgSrc = lang === 'pl' ? 'pl.jpeg' : 'en.jpeg';
+                const altText = lang === 'pl' ? 'Streść.to Polish' : 'Summarize.it English';
+                phoneMockup.innerHTML = `<img src="${imgSrc}" alt="${altText}" style="width: 100%; height: 100%; object-fit: cover;">`;
+            }
         }
 
         function detectAndInitLanguage() {
