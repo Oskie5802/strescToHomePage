@@ -13,16 +13,16 @@ const manrope = Manrope({
 })
 
 export const metadata = {
-  title: 'Strescto - Streszczenia Lektur, Plany Wydarzeń i Opracowania',
-  description: 'Twoje centrum streszczeń lektur. Szybko, konkretnie i na temat. Znajdź plany wydarzeń, charakterystyki postaci i motywy literackie.',
-  keywords: ['streszczenia', 'lektury', 'plan wydarzeń', 'charakterystyka', 'matura', 'egzamin ósmoklasisty', 'strescto', 'opracowania'],
+  title: 'Strescto - Najlepsze Streszczenia Lektur i Opracowania Szkolne',
+  description: 'Kompletne streszczenia lektur, precyzyjne plany wydarzeń i szczegółowe charakterystyki postaci. Przygotuj się do matury i egzaminu ósmoklasisty w mgnieniu oka.',
+  keywords: ['streszczenia', 'lektury', 'plan wydarzeń', 'charakterystyka postaci', 'matura 2024', 'egzamin ósmoklasisty', 'opracowania lektur', 'język polski'],
   icons: {
     icon: '/icon.png',
     apple: '/apple-icon.png',
   },
   openGraph: {
-    title: 'Strescto - Twoje streszczenia AI',
-    description: 'Najlepsze streszczenia lektur szkolnych. Ucz się szybciej z Strescto.',
+    title: 'Strescto - Inteligentne Opracowania Lektur',
+    description: 'Zrozum każdą lekturę w kilka minut. Plany wydarzeń, bohaterowie i motywy w jednym miejscu.',
     url: 'https://strescto.pl',
     siteName: 'Strescto',
     locale: 'pl_PL',
