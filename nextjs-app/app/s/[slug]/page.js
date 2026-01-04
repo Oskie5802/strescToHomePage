@@ -3,10 +3,18 @@ import { Sparkles, Users, Activity, BookOpen, Lightbulb, HelpCircle, ArrowLeft }
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-const supabase = createClient(supabaseUrl, supabaseKey)
+
+// Inicjalizacja klienta tylko jeśli zmienne istnieją, aby uniknąć błędu serwerowego
+const supabase = (supabaseUrl && supabaseKey) 
+  ? createClient(supabaseUrl, supabaseKey)
+  : null
 
 // Fetch summary from Supabase
 async function getSummary(slug) {
+  if (!supabase) {
+    console.error('Supabase client not initialized - missing env vars');
+    return null;
+  }
   try {
     // 1. Try by direct slug match
     if (!slug) return null;
@@ -107,20 +115,20 @@ function processData(record) {
 
   // Process characters (limit to 2 main ones for free view)
   const characters = (json.characters || [])
-      .filter(c => c.role === 'Protagonist' || c.role === 'Antagonist')
+      .filter(c => c && (c.role === 'Protagonist' || c.role === 'Antagonist'))
       .slice(0, 2)
       .map(c => ({
-          name: c.name,
-          role: c.role,
-          description: c.description,
-          icon: c.icon_emoji
+          name: c.name || 'Nieznany bohater',
+          role: c.role || '',
+          description: c.description || '',
+          icon: c.icon_emoji || ''
       }))
 
   // Process timeline (limit to 3 events)
   const timeline = (json.timeline || []).slice(0, 3).map(e => ({
-      chapter: e.chapter,
-      event: e.event,
-      description: e.description
+      chapter: e.chapter || '',
+      event: e.event || '',
+      description: e.description || ''
   }))
 
   return {
@@ -136,6 +144,7 @@ function processData(record) {
 }
 
 async function getRelatedSummaries(currentId) {
+  if (!supabase) return [];
   try {
     const { data } = await supabase
       .from('summaries')
