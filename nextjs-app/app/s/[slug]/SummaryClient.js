@@ -18,12 +18,6 @@ export default function SummaryClient({ teaser, fullContentId, isPremium = true 
   if (isLoading) return null;
 
   const appUrl = `https://app.strescto.pl/book/${fullContentId}`;
-  const loginUrl = `https://app.strescto.pl/login?redirect=/book/${fullContentId}`;
-
-  // Jeśli użytkownik jest zalogowany, zawsze pokazujemy "Przejdź do aplikacji"
-  // Jeśli nie jest zalogowany:
-  // - dla treści premium: "Zaloguj się, aby przeczytać całość"
-  // - dla treści darmowych: "Czytaj dalej w aplikacji"
 
   return (
     <div style={{ 
@@ -49,27 +43,20 @@ export default function SummaryClient({ teaser, fullContentId, isPremium = true 
         textTransform: 'uppercase',
         letterSpacing: '1.2px'
       }}>
-        {isLoggedIn ? 'Jesteś zalogowany' : (isPremium ? 'Treść Chroniona' : 'Czytaj Więcej')}
+        {isPremium ? 'Treść Chroniona' : 'Czytaj Więcej'}
       </div>
 
       <h3 style={{ fontFamily: 'var(--font-fraunces)', fontSize: '28px', marginBottom: '16px', color: '#232323', fontWeight: 'bold' }}>
-        {isLoggedIn 
-          ? 'Kontynuuj czytanie w aplikacji' 
-          : (isPremium ? 'Chcesz poznać całą historię?' : 'Odkryj pełną treść')}
+        Chcesz poznać całą historię?
       </h3>
 
       <p style={{ color: '#5D5D5D', marginBottom: '36px', fontSize: '17px', lineHeight: '1.6', maxWidth: '520px', margin: '0 auto 36px' }}>
-        {isLoggedIn 
-          ? 'Masz już dostęp! Przejdź do naszej aplikacji, aby kontynuować czytanie tego opracowania w wygodnym formacie.'
-          : (isPremium 
-              ? 'Pełne streszczenie, plan wydarzeń oraz analiza motywów dostępne są wyłącznie dla zalogowanych użytkowników w aplikacji Streść.to.'
-              : 'Dalsza część opracowania, dodatkowe materiały i quizy czekają na Ciebie w naszej darmowej aplikacji.')
-        }
+        Pełne streszczenie, plan wydarzeń, charakterystyka postaci oraz analiza motywów dostępne są w naszej aplikacji Streść.to.
       </p>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center' }}>
         <a 
-          href={isLoggedIn ? appUrl : (isPremium ? loginUrl : appUrl)}
+          href={appUrl}
           style={{
             backgroundColor: '#E05D44',
             color: '#fff',
@@ -91,7 +78,7 @@ export default function SummaryClient({ teaser, fullContentId, isPremium = true 
             e.currentTarget.style.transform = 'translateY(0)';
           }}
         >
-          {isLoggedIn ? 'Przejdź do aplikacji' : (isPremium ? 'Zaloguj się i czytaj całość' : 'Przejdź do aplikacji')}
+          Otwórz w aplikacji
         </a>
       </div>
     </div>

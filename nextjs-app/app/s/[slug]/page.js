@@ -320,14 +320,14 @@ export default async function SummaryPage({ params }) {
                  <span style={{ width: '6px', height: '6px', backgroundColor: '#E05D44', borderRadius: '50%' }}></span>
                </div>
                
-               <a href={`https://app.strescto.pl/login?redirect=/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+               <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                    <Users size={18} /> Postacie
                  </span>
                  <span style={{ color: '#999' }}><HelpCircle size={14} /></span>
                </a>
                
-               <a href={`https://app.strescto.pl/login?redirect=/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+               <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                    <Activity size={18} /> Plan Wydarzeń
                  </span>
@@ -340,13 +340,13 @@ export default async function SummaryPage({ params }) {
           <div>
              <div style={{ fontSize: '11px', textTransform: 'uppercase', color: '#999', letterSpacing: '1px', marginBottom: '12px', fontWeight: 'bold' }}>Analiza</div>
              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <a href={`https://app.strescto.pl/login?redirect=/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <Lightbulb size={18} /> Motywy i Wątki
                   </span>
                   <span style={{ fontSize: '12px' }}>🔒</span>
                 </a>
-                <a href={`https://app.strescto.pl/login?redirect=/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <BookOpen size={18} /> Analiza Literacka
                   </span>
@@ -359,7 +359,7 @@ export default async function SummaryPage({ params }) {
            <div>
              <div style={{ fontSize: '11px', textTransform: 'uppercase', color: '#999', letterSpacing: '1px', marginBottom: '12px', fontWeight: 'bold' }}>extras</div>
              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <a href={`https://app.strescto.pl/login?redirect=/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <HelpCircle size={18} /> Quizy
                   </span>
@@ -422,7 +422,7 @@ export default async function SummaryPage({ params }) {
                </li>
              ))}
              <li style={{ marginTop: '24px' }}>
-                <a href={`https://app.strescto.pl/login?redirect=/book/${summary.fullContentId}`} style={{ color: '#E05D44', fontWeight: 'bold', textDecoration: 'none', fontSize: '15px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ color: '#E05D44', fontWeight: 'bold', textDecoration: 'none', fontSize: '15px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <span>+ Zobacz pozostałe postacie w aplikacji</span>
                 </a>
              </li>
