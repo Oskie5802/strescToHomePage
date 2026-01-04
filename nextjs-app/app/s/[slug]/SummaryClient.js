@@ -43,15 +43,17 @@ export default function SummaryClient({ teaser, fullContentId, isPremium = true 
         textTransform: 'uppercase',
         letterSpacing: '1.2px'
       }}>
-        {isPremium ? 'Treść Chroniona' : 'Czytaj Więcej'}
+        {isPremium ? 'Treść Chroniona' : 'Dostępne w aplikacji'}
       </div>
 
       <h3 style={{ fontFamily: 'var(--font-fraunces)', fontSize: '28px', marginBottom: '16px', color: '#232323', fontWeight: 'bold' }}>
-        Chcesz poznać całą historię?
+        {isLoggedIn ? 'Kontynuuj czytanie' : 'Chcesz poznać całą historię?'}
       </h3>
 
       <p style={{ color: '#5D5D5D', marginBottom: '36px', fontSize: '17px', lineHeight: '1.6', maxWidth: '520px', margin: '0 auto 36px' }}>
-        Pełne streszczenie, plan wydarzeń, charakterystyka postaci oraz analiza motywów dostępne są w naszej aplikacji Streść.to.
+        {isPremium 
+          ? 'Pełne streszczenie, plan wydarzeń, charakterystyka postaci oraz analiza motywów dostępne są w naszej aplikacji Streść.to.'
+          : 'To tylko fragment opracowania. Pełna wersja, quizy i dodatkowe materiały czekają na Ciebie w aplikacji.'}
       </p>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center' }}>
@@ -65,20 +67,22 @@ export default function SummaryClient({ teaser, fullContentId, isPremium = true 
             fontSize: '16px',
             fontWeight: '700',
             textDecoration: 'none',
-            transition: 'transform 0.2s ease, background-color 0.2s ease',
+            transition: 'transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease',
             display: 'inline-block',
             boxShadow: '0 10px 20px rgba(224, 93, 68, 0.2)'
           }}
           onMouseOver={(e) => {
             e.currentTarget.style.backgroundColor = '#d04d34';
             e.currentTarget.style.transform = 'translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 15px 30px rgba(224, 93, 68, 0.3)';
           }}
           onMouseOut={(e) => {
             e.currentTarget.style.backgroundColor = '#E05D44';
             e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 10px 20px rgba(224, 93, 68, 0.2)';
           }}
         >
-          Otwórz w aplikacji
+          Przejdź do aplikacji
         </a>
       </div>
     </div>

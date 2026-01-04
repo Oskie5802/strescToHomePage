@@ -92,7 +92,19 @@ function processData(record) {
     /Jako AI/gi,
     /Podsumowanie wygenerowane/gi,
     /summary for .* by .*/gi,
-    /Oto streszczenie/gi
+    /Oto streszczenie/gi,
+    /Ten tekst został przygotowany/gi,
+    /Zapraszam do zapoznania się/gi,
+    /Poniżej znajduje się/gi,
+    /W tym streszczeniu/gi,
+    /Mam nadzieję, że/gi,
+    /Warto zauważyć, że/gi,
+    /Należy pamiętać, że/gi,
+    /Podsumowując/gi,
+    /W powyższym streszczeniu/gi,
+    /Daj mi znać/gi,
+    /Jeśli masz jakieś pytania/gi,
+    /Chętnie pomogę/gi
   ];
 
   let cleanedSummary = summaryContent;
@@ -108,22 +120,34 @@ function processData(record) {
   cleanedSummary = cleanedSummary.replace(/\*\*/g, '');
   cleanedSummary = cleanedSummary.replace(/\*/g, '');
   cleanedSummary = cleanedSummary.replace(/__/g, '');
+  cleanedSummary = cleanedSummary.replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1'); // Remove links but keep text
   
   cleanedTeaser = cleanedTeaser.replace(/^#+\s+/gm, '');
   cleanedTeaser = cleanedTeaser.replace(/\*\*/g, '');
   cleanedTeaser = cleanedTeaser.replace(/\*/g, '');
   cleanedTeaser = cleanedTeaser.replace(/__/g, '');
+  cleanedTeaser = cleanedTeaser.replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1');
 
   cleanedSummary = cleanedSummary.trim();
   cleanedTeaser = cleanedTeaser.trim();
+
+  // Ensure teaser doesn't start with weird punctuation
+  cleanedTeaser = cleanedTeaser.replace(/^[.,:;!\s]+/, '');
+  cleanedSummary = cleanedSummary.replace(/^[.,:;!\s]+/, '');
 
   const summaryPreview = cleanedSummary.length > 400 
       ? cleanedSummary.substring(0, 400) + '...' 
       : cleanedSummary
 
   // Process characters (limit to 2 main ones for free view)
-  const characters = (json.characters || [])
+  let charList = (json.characters || [])
       .filter(c => c && (c.role === 'Protagonist' || c.role === 'Antagonist'))
+  
+  if (charList.length === 0 && json.characters?.length > 0) {
+    charList = json.characters.slice(0, 2)
+  }
+
+  const characters = charList
       .slice(0, 2)
       .map(c => ({
           name: c.name || 'Nieznany bohater',
@@ -149,6 +173,18 @@ function processData(record) {
     fullContentId: record.id,
     slug: json.slug || slugify(json.title || record.book_title)
   }
+}
+
+function slugify(text) {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .normalize('NFD') // separate characters from accents
+    .replace(/[\u0300-\u036f]/g, '') // remove accents
+    .replace(/\s+/g, '-') // replace spaces with -
+    .replace(/[^\w-]+/g, '') // remove all non-word chars
+    .replace(/--+/g, '-') // replace multiple - with single -
 }
 
 async function getRelatedSummaries(currentId) {
@@ -228,32 +264,80 @@ export default async function SummaryPage({ params }) {
   const related = await getRelatedSummaries(summary.fullContentId)
 
   // Schema.org JSON-LD
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Book',
-    'name': summary.title,
-    'author': {
-      '@type': 'Person',
-      'name': summary.author
-    },
-    'description': summary.teaser,
-    'workExample': {
-      '@type': 'CreativeWork',
-      'potentialAction': {
-        '@type': 'ReadAction',
-        'target': {
-          '@type': 'EntryPoint',
-          'urlTemplate': `https://strescto.pl/s/${slug}`
-        }
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Book',
+      'name': summary.title,
+      'author': {
+        '@type': 'Person',
+        'name': summary.author
       },
-      'isAccessibleForFree': 'False',
-      'hasPart': {
-        '@type': 'WebPageElement',
+      'description': summary.teaser,
+      'workExample': {
+        '@type': 'CreativeWork',
+        'potentialAction': {
+          '@type': 'ReadAction',
+          'target': {
+            '@type': 'EntryPoint',
+            'urlTemplate': `https://strescto.pl/s/${slug}`
+          }
+        },
         'isAccessibleForFree': 'False',
-        'cssSelector': '.premium-lock'
+        'hasPart': {
+          '@type': 'WebPageElement',
+          'isAccessibleForFree': 'False',
+          'cssSelector': '.premium-lock'
+        }
       }
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      'itemListElement': [
+        {
+          '@type': 'ListItem',
+          'position': 1,
+          'name': 'Strona Główna',
+          'item': 'https://strescto.pl'
+        },
+        {
+          '@type': 'ListItem',
+          'position': 2,
+          'name': 'Streszczenia',
+          'item': 'https://strescto.pl/s'
+        },
+        {
+          '@type': 'ListItem',
+          'position': 3,
+          'name': summary.title,
+          'item': `https://strescto.pl/s/${slug}`
+        }
+      ]
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      'mainEntity': [
+        {
+          '@type': 'Question',
+          'name': `Czy streszczenie ${summary.title} zawiera wszystkie rozdziały?`,
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': `Tak, nasze opracowanie lektury ${summary.title} obejmuje szczegółowy opis wszystkich kluczowych wydarzeń i rozdziałów.`
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': `Czy opracowanie ${summary.title} jest zgodne z podstawą programową?`,
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': `Tak, streszczenie i analiza lektury ${summary.title} zostały przygotowane z myślą o uczniach przygotowujących się do matury i egzaminu ósmoklasisty.`
+          }
+        }
+      ]
     }
-  }
+  ]
 
   return (
     <div className="summary-page-container" style={{ backgroundColor: '#F2F0E9', minHeight: '100vh', color: '#232323', fontFamily: 'var(--font-manrope), sans-serif', display: 'flex' }}>
@@ -442,9 +526,15 @@ export default async function SummaryPage({ params }) {
                   display: 'inline-flex', 
                   alignItems: 'center', 
                   gap: '6px',
-                  padding: '8px 0'
-                }}>
-                  <span>+ Zobacz pozostałe postacie w aplikacji</span>
+                  padding: '10px 20px',
+                  border: '1px solid #E05D44',
+                  borderRadius: '100px',
+                  transition: 'all 0.2s ease'
+                }}
+                className="btn-secondary"
+                >
+                  <span>Przejdź do aplikacji</span>
+                  <Sparkles size={14} />
                 </a>
              </li>
           </ul>
@@ -503,6 +593,13 @@ export default async function SummaryPage({ params }) {
         .sidebar-desktop { display: flex !important; }
         .main-content { flex: 1; margin-left: 300px; max-width: calc(100% - 300px); padding: 60px 80px; }
         
+        .btn-secondary:hover {
+          background-color: #E05D44;
+          color: #fff !important;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(224, 93, 68, 0.2);
+        }
+
         @media (max-width: 1200px) {
           .main-content { padding: 60px 40px; }
         }
