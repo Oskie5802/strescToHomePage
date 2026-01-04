@@ -96,7 +96,9 @@ function processData(record) {
     /W powyższym streszczeniu/gi,
     /Daj mi znać/gi,
     /Jeśli masz jakieś pytania/gi,
-    /Chętnie pomogę/gi
+    /Chętnie pomogę/gi,
+    /`backticks`/gi,
+    /backticks/gi
   ];
 
   // Extract teaser from content (keep existing logic for metadata)
@@ -162,12 +164,18 @@ function processData(record) {
 
   const characters = charList
       .slice(0, 2)
-      .map(c => ({
-          name: c.name || 'Nieznany bohater',
-          role: c.role || '',
-          description: c.description || '',
-          icon: c.icon_emoji || ''
-      }))
+      .map(c => {
+          let desc = c.description || '';
+          aiPatterns.forEach(pattern => {
+            desc = desc.replace(pattern, '');
+          });
+          return {
+            name: c.name || 'Nieznany bohater',
+            role: c.role || '',
+            description: desc,
+            icon: c.icon_emoji || ''
+          };
+      })
 
   // Process timeline (limit to 3 events)
   const timeline = (json.timeline || []).slice(0, 3).map(e => ({
@@ -580,29 +588,6 @@ export default async function SummaryPage({ params }) {
                </div>
              ))}
           </div>
-          <div style={{ marginTop: '24px' }}>
-             <a href={appUrl} style={{ 
-               color: '#E05D44', 
-               fontWeight: 'bold', 
-               textDecoration: 'none', 
-               fontSize: '15px', 
-               display: 'inline-flex', 
-               alignItems: 'center', 
-               gap: '6px',
-               padding: '10px 24px',
-               border: '1px solid #E05D44',
-               borderRadius: '100px',
-               transition: 'all 0.2s ease'
-             }}
-             className="btn-secondary"
-             >
-               <span>Przejdź do aplikacji</span>
-               <Sparkles size={14} />
-             </a>
-             <p style={{ fontSize: '13px', color: '#888', marginTop: '16px', fontWeight: '500' }}>
-               Spokojnie, nic nie musisz pobierać – możesz skorzystać z naszej aplikacji webowej.
-             </p>
-          </div>
         </section>
 
         <hr style={{ border: 0, borderTop: '1px solid rgba(0,0,0,0.05)', marginBottom: '56px' }} />
@@ -637,34 +622,6 @@ export default async function SummaryPage({ params }) {
             fullContentId={summary.fullContentId} 
             isPremium={true} // Tutaj można by wstawić logikę sprawdzającą czy to premium z bazy
           />
-
-          {/* Final CTA */}
-          <div style={{ backgroundColor: '#fff', padding: '48px 32px', borderRadius: '32px', textAlign: 'center', border: '1px solid rgba(0,0,0,0.05)', boxShadow: '0 20px 40px rgba(0,0,0,0.03)', marginTop: '40px' }}>
-            <h3 style={{ fontFamily: 'var(--font-fraunces)', fontSize: '28px', marginBottom: '16px' }}>Chcesz dowiedzieć się więcej?</h3>
-            <p style={{ color: '#5D5D5D', marginBottom: '32px', fontSize: '16px', maxWidth: '500px', margin: '0 auto 32px' }}>
-              W pełnej wersji aplikacji znajdziesz szczegółowe opracowanie motywów, interaktywne quizy i plan wydarzeń.
-            </p>
-            <a 
-              href={appUrl}
-              className="btn-main"
-              style={{ 
-                display: 'inline-block',
-                backgroundColor: '#E05D44',
-                color: '#fff',
-                padding: '16px 32px',
-                borderRadius: '16px',
-                fontWeight: '700',
-                textDecoration: 'none',
-                transition: 'all 0.2s ease',
-                boxShadow: '0 4px 12px rgba(224, 93, 68, 0.2)'
-              }}
-            >
-              Przejdź do aplikacji
-            </a>
-            <p style={{ fontSize: '13px', color: '#888', marginTop: '16px', fontWeight: '500' }}>
-              Spokojnie, nic nie musisz pobierać – możesz skorzystać z naszej aplikacji webowej.
-            </p>
-          </div>
         </section>
 
         {/* FAQ / SEO Section */}
