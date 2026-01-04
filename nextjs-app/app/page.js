@@ -156,6 +156,7 @@ export default function Home() {
             overflow-x: hidden;
             line-height: 1.5;
             transition: opacity 0.3s ease;
+            margin-top: 40px; /* Dodatkowy margines od samej góry okna */
         }
 
         /* Noise Texture */
