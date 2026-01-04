@@ -159,7 +159,8 @@ async function getRelatedSummaries(currentId) {
 }
 
 export async function generateMetadata({ params }) {
-  const { slug } = await params
+  const resolvedParams = await params
+  const slug = resolvedParams.slug
   const summary = await getSummary(slug)
   if (!summary) return { title: 'Nie znaleziono - Strescto' }
   
@@ -184,7 +185,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function SummaryPage({ params }) {
-  const { slug } = await params
+  const resolvedParams = await params
+  const slug = resolvedParams.slug
   const summary = await getSummary(slug)
   
   if (!summary) {
