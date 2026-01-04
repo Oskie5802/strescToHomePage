@@ -103,9 +103,16 @@ function processData(record) {
     cleanedTeaser = cleanedTeaser.replace(pattern, '');
   });
 
-  // Remove Markdown headers from content if they leaked in
+  // Remove Markdown headers and basic syntax (bold, italic)
   cleanedSummary = cleanedSummary.replace(/^#+\s+/gm, '');
+  cleanedSummary = cleanedSummary.replace(/\*\*/g, '');
+  cleanedSummary = cleanedSummary.replace(/\*/g, '');
+  cleanedSummary = cleanedSummary.replace(/__/g, '');
+  
   cleanedTeaser = cleanedTeaser.replace(/^#+\s+/gm, '');
+  cleanedTeaser = cleanedTeaser.replace(/\*\*/g, '');
+  cleanedTeaser = cleanedTeaser.replace(/\*/g, '');
+  cleanedTeaser = cleanedTeaser.replace(/__/g, '');
 
   cleanedSummary = cleanedSummary.trim();
   cleanedTeaser = cleanedTeaser.trim();
@@ -271,84 +278,89 @@ export default async function SummaryPage({ params }) {
         {/* Back Button */}
         <a href="/" style={{ 
           textDecoration: 'none', 
-          color: '#5D5D5D', 
+          color: '#888', 
           display: 'flex', 
           alignItems: 'center', 
-          fontSize: '14px', 
+          fontSize: '13px', 
           fontWeight: '600',
-          marginBottom: '32px'
+          marginBottom: '28px',
+          transition: 'color 0.2s ease'
         }}>
-          <ArrowLeft size={16} style={{ marginRight: '8px' }} /> Wróć
+          <ArrowLeft size={14} style={{ marginRight: '6px' }} /> Wróć
         </a>
 
         {/* Title & Author */}
-        <div style={{ marginBottom: '40px' }}>
+        <div style={{ marginBottom: '32px' }}>
           <h1 style={{ 
             fontFamily: 'var(--font-fraunces)', 
-            fontSize: '28px', 
+            fontSize: '24px', 
             fontWeight: 'bold', 
             color: '#232323', 
-            marginBottom: '4px',
-            lineHeight: '1.1'
+            marginBottom: '8px',
+            lineHeight: '1.2'
           }}>
             {summary.title}
           </h1>
-          <p style={{ fontSize: '14px', color: '#888', fontWeight: '500' }}>{summary.author}</p>
+          {summary.author && (
+             <p style={{ fontSize: '13px', color: '#888', fontWeight: '500', margin: 0, lineHeight: '1.4' }}>
+               {summary.author}
+             </p>
+           )}
         </div>
 
         {/* Navigation */}
-        <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '20px' }}>
           
           {/* Overview Group */}
           <div>
-            <div style={{ fontSize: '11px', textTransform: 'uppercase', color: '#999', letterSpacing: '1px', marginBottom: '12px', fontWeight: 'bold' }}>overview</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <div style={{ fontSize: '10px', textTransform: 'uppercase', color: '#AAA', letterSpacing: '1.2px', marginBottom: '10px', fontWeight: '800' }}>overview</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                <div style={{ 
-                 padding: '10px 16px', 
+                 padding: '10px 14px', 
                  backgroundColor: '#FFF0EE', 
                  color: '#E05D44', 
-                 borderRadius: '12px', 
-                 fontWeight: 'bold', 
-                 fontSize: '14px',
+                 borderRadius: '10px', 
+                 fontWeight: '700', 
+                 fontSize: '13px',
                  display: 'flex',
                  alignItems: 'center',
                  justifyContent: 'space-between'
                }}>
-                 <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                   <Sparkles size={18} /> Streszczenie
+                 <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                   <Sparkles size={16} /> Streszczenie
                  </span>
-                 <span style={{ width: '6px', height: '6px', backgroundColor: '#E05D44', borderRadius: '50%' }}></span>
+                 <span style={{ width: '5px', height: '5px', backgroundColor: '#E05D44', borderRadius: '50%' }}></span>
                </div>
                
-               <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                 <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                   <Users size={18} /> Postacie
+               <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 14px', color: '#555', textDecoration: 'none', fontSize: '13px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                 <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                   <Users size={16} /> Postacie
                  </span>
-                 <span style={{ color: '#999' }}><HelpCircle size={14} /></span>
+                 <span style={{ color: '#CCC' }}><HelpCircle size={14} /></span>
                </a>
                
-               <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                 <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                   <Activity size={18} /> Plan Wydarzeń
+               <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 14px', color: '#555', textDecoration: 'none', fontSize: '13px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                 <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                   <Activity size={16} /> Plan Wydarzeń
                  </span>
-                 <span style={{ color: '#999' }}><HelpCircle size={14} /></span>
+                 <span style={{ color: '#CCC' }}><HelpCircle size={14} /></span>
                </a>
             </div>
           </div>
 
           {/* Analysis Group */}
           <div>
-             <div style={{ fontSize: '11px', textTransform: 'uppercase', color: '#999', letterSpacing: '1px', marginBottom: '12px', fontWeight: 'bold' }}>Analiza</div>
-             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Lightbulb size={18} /> Motywy i Wątki
+             <div style={{ fontSize: '10px', textTransform: 'uppercase', color: '#AAA', letterSpacing: '1.2px', marginBottom: '10px', fontWeight: '800' }}>Analiza</div>
+             <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 14px', color: '#555', textDecoration: 'none', fontSize: '13px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <Lightbulb size={16} /> Motywy i Wątki
                   </span>
                   <span style={{ fontSize: '12px' }}>🔒</span>
                 </a>
-                <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <BookOpen size={18} /> Analiza Literacka
+                <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 14px', color: '#555', textDecoration: 'none', fontSize: '13px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <BookOpen size={16} /> Analiza Literacka
                   </span>
                   <span style={{ fontSize: '12px' }}>🔒</span>
                 </a>
@@ -357,11 +369,11 @@ export default async function SummaryPage({ params }) {
 
            {/* Extras Group */}
            <div>
-             <div style={{ fontSize: '11px', textTransform: 'uppercase', color: '#999', letterSpacing: '1px', marginBottom: '12px', fontWeight: 'bold' }}>extras</div>
-             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 16px', color: '#5D5D5D', textDecoration: 'none', fontSize: '14px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <HelpCircle size={18} /> Quizy
+             <div style={{ fontSize: '10px', textTransform: 'uppercase', color: '#AAA', letterSpacing: '1.2px', marginBottom: '10px', fontWeight: '800' }}>extras</div>
+             <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ padding: '10px 14px', color: '#555', textDecoration: 'none', fontSize: '13px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <HelpCircle size={16} /> Quizy
                   </span>
                   <span style={{ fontSize: '12px' }}>🔒</span>
                 </a>
@@ -422,7 +434,16 @@ export default async function SummaryPage({ params }) {
                </li>
              ))}
              <li style={{ marginTop: '24px' }}>
-                <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ color: '#E05D44', fontWeight: 'bold', textDecoration: 'none', fontSize: '15px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <a href={`https://app.strescto.pl/book/${summary.fullContentId}`} style={{ 
+                  color: '#E05D44', 
+                  fontWeight: 'bold', 
+                  textDecoration: 'none', 
+                  fontSize: '15px', 
+                  display: 'inline-flex', 
+                  alignItems: 'center', 
+                  gap: '6px',
+                  padding: '8px 0'
+                }}>
                   <span>+ Zobacz pozostałe postacie w aplikacji</span>
                 </a>
              </li>
@@ -480,14 +501,19 @@ export default async function SummaryPage({ params }) {
 
       <style dangerouslySetInnerHTML={{ __html: `
         .sidebar-desktop { display: flex !important; }
-        .main-content { flex: 1; marginLeft: 300px; maxWidth: 100%; padding: 60px 80px; }
+        .main-content { flex: 1; margin-left: 300px; max-width: calc(100% - 300px); padding: 60px 80px; }
         
-        @media (max-width: 1024px) {
-          .main-content { padding: 40px 40px !important; }
+        @media (max-width: 1200px) {
+          .main-content { padding: 60px 40px; }
         }
+
+        @media (max-width: 1024px) {
+          .main-content { padding: 40px 40px; }
+        }
+
         @media (max-width: 768px) {
           .sidebar-desktop { display: none !important; }
-          .main-content { margin-left: 0 !important; padding: 32px 20px !important; }
+          .main-content { margin-left: 0 !important; max-width: 100% !important; padding: 32px 20px !important; }
           .summary-page-container h1 { font-size: 32px !important; }
           .summary-page-container h2 { font-size: 24px !important; }
         }
