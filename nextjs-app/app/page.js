@@ -175,7 +175,7 @@ export default function Home() {
 
         /* --- NAV & LANG SWITCHER --- */
         nav {
-            padding: 48px 0 32px 0;
+            padding: 72px 0 32px 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
