@@ -429,55 +429,12 @@ export default async function SummaryPage({ params }) {
              </div>
           </div>
           
-          {/* CTA Button Block */}
-          <div style={{ 
-            marginTop: '-20px', 
-            textAlign: 'center', 
-            padding: '48px 32px', 
-            backgroundColor: '#fff', 
-            borderRadius: '24px', 
-            border: '1px solid rgba(0,0,0,0.06)',
-            boxShadow: '0 20px 40px rgba(0,0,0,0.03)',
-            position: 'relative',
-            zIndex: 10
-          }}>
-             <div style={{ 
-               backgroundColor: '#E05D44', 
-               color: '#fff', 
-               display: 'inline-block', 
-               padding: '5px 14px', 
-               borderRadius: '20px', 
-               fontSize: '11px', 
-               fontWeight: '800', 
-               marginBottom: '20px',
-               textTransform: 'uppercase',
-               letterSpacing: '1.2px'
-             }}>
-               Treść Chroniona
-             </div>
-             <h3 style={{ fontFamily: 'var(--font-fraunces)', fontSize: '28px', marginBottom: '16px', color: '#232323', fontWeight: 'bold' }}>Chcesz poznać całą historię?</h3>
-             <p style={{ color: '#5D5D5D', marginBottom: '36px', fontSize: '17px', lineHeight: '1.6', maxWidth: '520px', margin: '0 auto 36px' }}>
-               Pełne streszczenie, plan wydarzeń, charakterystyka postaci oraz analiza motywów dostępne są wyłącznie w aplikacji Streść.to.
-             </p>
-             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center' }}>
-               <a href={`https://app.strescto.pl/login?redirect=/book/${summary.fullContentId}`} style={{
-                  display: 'inline-block',
-                  backgroundColor: '#232323',
-                  color: '#fff',
-                  padding: '18px 48px',
-                  borderRadius: '16px',
-                  textDecoration: 'none',
-                  fontWeight: 'bold',
-                  fontSize: '18px',
-                  boxShadow: '0 10px 25px rgba(0,0,0,0.1)'
-               }}>
-                 Zaloguj się i czytaj dalej
-               </a>
-               <a href="https://app.strescto.pl" style={{ color: '#888', textDecoration: 'none', fontSize: '14px', fontWeight: '600' }}>
-                 Nie masz konta? Załóż je za darmo
-               </a>
-             </div>
-          </div>
+          {/* Client Side Auth & CTA */}
+          <SummaryClient 
+            teaser={summary.teaser} 
+            fullContentId={summary.fullContentId} 
+            isPremium={true} // Tutaj można by wstawić logikę sprawdzającą czy to premium z bazy
+          />
         </section>
 
         {/* FAQ / SEO Section */}

@@ -2,69 +2,98 @@
 
 import { useState, useEffect } from 'react'
 
-export default function SummaryClient({ teaser, fullContentId }) {
+export default function SummaryClient({ teaser, fullContentId, isPremium = true }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [content, setContent] = useState(teaser)
-  const [isLocked, setIsLocked] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Check if user is logged in (mock)
+    // Check if user is logged in
     const token = localStorage.getItem('strescto_token')
     if (token) {
       setIsLoggedIn(true)
-      // fetchFullContent(fullContentId)
     }
-  }, [fullContentId])
+    setIsLoading(false)
+  }, [])
 
-  const handleLogin = () => {
-    // Mock login
-    localStorage.setItem('strescto_token', 'mock_token')
-    setIsLoggedIn(true)
-    alert('Zalogowano pomyślnie! Odśwież stronę, aby zobaczyć pełną treść (w prawdziwej wersji załadowałoby się dynamicznie).')
-    window.location.reload()
-  }
+  if (isLoading) return null;
+
+  const appUrl = `https://app.strescto.pl/book/${fullContentId}`;
+  const loginUrl = `https://app.strescto.pl/login?redirect=/book/${fullContentId}`;
+
+  // Jeśli użytkownik jest zalogowany, zawsze pokazujemy "Przejdź do aplikacji"
+  // Jeśli nie jest zalogowany:
+  // - dla treści premium: "Zaloguj się, aby przeczytać całość"
+  // - dla treści darmowych: "Czytaj dalej w aplikacji"
 
   return (
-    <div>
-      <div 
-        className="summary-content"
-        dangerouslySetInnerHTML={{ __html: content }} 
-        style={{ lineHeight: '1.6', fontSize: '18px' }}
-      />
-      
-      {isLocked && !isLoggedIn && (
-        <div style={{ 
-          marginTop: '2rem', 
-          padding: '2rem', 
-          background: 'linear-gradient(to bottom, rgba(255,255,255,0), rgba(240,240,240,1))', 
-          textAlign: 'center',
-          border: '1px solid #ddd',
-          borderRadius: '8px'
-        }}>
-          <h3>To jest treść Premium</h3>
-          <p>Zaloguj się, aby przeczytać całość.</p>
-          <button 
-            onClick={handleLogin}
-            style={{ 
-              padding: '12px 24px', 
-              fontSize: '16px', 
-              background: '#0070f3', 
-              color: 'white', 
-              border: 'none', 
-              borderRadius: '5px', 
-              cursor: 'pointer' 
-            }}
-          >
-            Zaloguj się / Wykup dostęp
-          </button>
-        </div>
-      )}
+    <div style={{ 
+      marginTop: '2rem', 
+      padding: '48px 32px', 
+      backgroundColor: '#fff', 
+      borderRadius: '24px', 
+      border: '1px solid rgba(0,0,0,0.06)',
+      boxShadow: '0 20px 40px rgba(0,0,0,0.03)',
+      textAlign: 'center',
+      position: 'relative',
+      zIndex: 10
+    }}>
+      <div style={{ 
+        backgroundColor: '#E05D44', 
+        color: '#fff', 
+        display: 'inline-block', 
+        padding: '5px 14px', 
+        borderRadius: '20px', 
+        fontSize: '11px', 
+        fontWeight: '800', 
+        marginBottom: '20px',
+        textTransform: 'uppercase',
+        letterSpacing: '1.2px'
+      }}>
+        {isLoggedIn ? 'Jesteś zalogowany' : (isPremium ? 'Treść Chroniona' : 'Czytaj Więcej')}
+      </div>
 
-      {isLoggedIn && (
-         <div style={{ marginTop: '20px', color: 'green', fontWeight: 'bold' }}>
-           Jesteś zalogowany. Tutaj pojawiłaby się pełna treść pobrana z API.
-         </div>
-      )}
+      <h3 style={{ fontFamily: 'var(--font-fraunces)', fontSize: '28px', marginBottom: '16px', color: '#232323', fontWeight: 'bold' }}>
+        {isLoggedIn 
+          ? 'Kontynuuj czytanie w aplikacji' 
+          : (isPremium ? 'Chcesz poznać całą historię?' : 'Odkryj pełną treść')}
+      </h3>
+
+      <p style={{ color: '#5D5D5D', marginBottom: '36px', fontSize: '17px', lineHeight: '1.6', maxWidth: '520px', margin: '0 auto 36px' }}>
+        {isLoggedIn 
+          ? 'Masz już dostęp! Przejdź do naszej aplikacji, aby kontynuować czytanie tego opracowania w wygodnym formacie.'
+          : (isPremium 
+              ? 'Pełne streszczenie, plan wydarzeń oraz analiza motywów dostępne są wyłącznie dla zalogowanych użytkowników w aplikacji Streść.to.'
+              : 'Dalsza część opracowania, dodatkowe materiały i quizy czekają na Ciebie w naszej darmowej aplikacji.')
+        }
+      </p>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center' }}>
+        <a 
+          href={isLoggedIn ? appUrl : (isPremium ? loginUrl : appUrl)}
+          style={{
+            backgroundColor: '#E05D44',
+            color: '#fff',
+            padding: '16px 40px',
+            borderRadius: '100px',
+            fontSize: '16px',
+            fontWeight: '700',
+            textDecoration: 'none',
+            transition: 'transform 0.2s ease, background-color 0.2s ease',
+            display: 'inline-block',
+            boxShadow: '0 10px 20px rgba(224, 93, 68, 0.2)'
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.backgroundColor = '#d04d34';
+            e.currentTarget.style.transform = 'translateY(-2px)';
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.backgroundColor = '#E05D44';
+            e.currentTarget.style.transform = 'translateY(0)';
+          }}
+        >
+          {isLoggedIn ? 'Przejdź do aplikacji' : (isPremium ? 'Zaloguj się i czytaj całość' : 'Przejdź do aplikacji')}
+        </a>
+      </div>
     </div>
   )
 }
