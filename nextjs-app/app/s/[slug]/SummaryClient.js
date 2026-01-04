@@ -50,10 +50,12 @@ export default function SummaryClient({ teaser, fullContentId, isPremium = true 
         {isLoggedIn ? 'Kontynuuj czytanie' : 'Chcesz poznać całą historię?'}
       </h3>
 
-      <p style={{ color: '#5D5D5D', marginBottom: '36px', fontSize: '17px', lineHeight: '1.6', maxWidth: '520px', margin: '0 auto 36px' }}>
-        {isPremium 
-          ? 'Pełne streszczenie, plan wydarzeń, charakterystyka postaci oraz analiza motywów dostępne są w naszej aplikacji Streść.to.'
-          : 'To tylko fragment opracowania. Pełna wersja, quizy i dodatkowe materiały czekają na Ciebie w aplikacji.'}
+      <p style={{ color: '#5D5D5D', marginBottom: '40px', fontSize: '18px', maxWidth: '400px', margin: '0 auto 40px', lineHeight: '1.6' }}>
+        Zaloguj się, aby uzyskać dostęp do pełnej treści, analizy motywów i interaktywnych quizów.
+        <br/>
+        <span style={{ fontSize: '14px', marginTop: '16px', display: 'block', opacity: 0.9, fontWeight: '500' }}>
+          Spokojnie, nic nie musisz pobierać – możesz skorzystać z naszej aplikacji webowej.
+        </span>
       </p>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center' }}>
