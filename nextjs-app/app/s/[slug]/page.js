@@ -646,6 +646,7 @@ export default async function SummaryPage({ params }) {
             </p>
             <a 
               href={appUrl}
+              className="btn-main"
               style={{ 
                 display: 'inline-block',
                 backgroundColor: '#E05D44',
@@ -656,14 +657,6 @@ export default async function SummaryPage({ params }) {
                 textDecoration: 'none',
                 transition: 'all 0.2s ease',
                 boxShadow: '0 4px 12px rgba(224, 93, 68, 0.2)'
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 6px 20px rgba(224, 93, 68, 0.3)';
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(224, 93, 68, 0.2)';
               }}
             >
               Przejdź do aplikacji
@@ -702,6 +695,11 @@ export default async function SummaryPage({ params }) {
           color: #fff !important;
           transform: translateY(-2px);
           box-shadow: 0 4px 12px rgba(224, 93, 68, 0.2);
+        }
+
+        .btn-main:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(224, 93, 68, 0.3) !important;
         }
 
         @media (max-width: 1200px) {
