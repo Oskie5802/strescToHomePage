@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { Sparkles, Users, Activity, BookOpen, Lightbulb, HelpCircle, ArrowLeft } from 'lucide-react'
+import SummaryClient from './SummaryClient'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
