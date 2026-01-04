@@ -64,27 +64,6 @@ async function getSummary(slug) {
 function processData(record) {
   const json = record.content_json || {}
   
-  // Extract teaser from content (keep existing logic for metadata)
-  let teaserText = json.seo_description || ''
-  
-  // Clean AI from original SEO description if it exists
-  aiPatterns.forEach(pattern => {
-    teaserText = teaserText.replace(pattern, '');
-  });
-  
-  const summarySection = json.custom_sections?.find(s => s.id === 'summary')
-  const summaryContent = summarySection ? summarySection.content : ''
-
-  if (!teaserText) {
-    if (summaryContent) {
-       teaserText = summaryContent.substring(0, 300) + '...'
-    }
-  }
-  
-  if (!teaserText && json.literary_analysis?.context) {
-     teaserText = json.literary_analysis.context.substring(0, 200) + '...'
-  }
-  
   // Clean AI artifacts more thoroughly
   const aiPatterns = [
     /AI generated summary/gi,
@@ -120,6 +99,27 @@ function processData(record) {
     /Chętnie pomogę/gi
   ];
 
+  // Extract teaser from content (keep existing logic for metadata)
+  let teaserText = json.seo_description || ''
+  
+  // Clean AI from original SEO description if it exists
+  aiPatterns.forEach(pattern => {
+    teaserText = teaserText.replace(pattern, '');
+  });
+  
+  const summarySection = json.custom_sections?.find(s => s.id === 'summary')
+  const summaryContent = summarySection ? summarySection.content : ''
+
+  if (!teaserText) {
+    if (summaryContent) {
+       teaserText = summaryContent.substring(0, 300) + '...'
+    }
+  }
+  
+  if (!teaserText && json.literary_analysis?.context) {
+     teaserText = json.literary_analysis.context.substring(0, 200) + '...'
+  }
+  
   let cleanedSummary = summaryContent;
   let cleanedTeaser = teaserText;
 
@@ -359,24 +359,50 @@ export default async function SummaryPage({ params }) {
     : `https://app.strescto.pl/book/${summary.fullContentId}`;
 
   return (
-    <div className="summary-page-container" style={{ backgroundColor: '#F2F0E9', minHeight: '100vh', color: '#232323', fontFamily: 'var(--font-manrope), sans-serif', display: 'flex' }}>
+    <div className="summary-page-container" style={{ backgroundColor: '#F2F0E9', minHeight: '100vh', color: '#232323', fontFamily: 'var(--font-manrope), sans-serif', display: 'flex', flexDirection: 'column' }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       
-      {/* Sidebar (Desktop) */}
-      <aside style={{ 
-        width: '300px', 
-        position: 'fixed', 
-        height: '100vh', 
-        borderRight: '1px solid rgba(0,0,0,0.05)', 
-        padding: '40px 24px', 
-        display: 'none', // Default hidden, handled by media query in global or inline
-        flexDirection: 'column',
+      {/* Mobile Header */}
+      <header className="mobile-header" style={{
+        display: 'none',
+        padding: '16px 20px',
         backgroundColor: '#fff',
-        zIndex: 100
-      }} className="sidebar-desktop">
+        borderBottom: '1px solid rgba(0,0,0,0.05)',
+        position: 'sticky',
+        top: 0,
+        zIndex: 1000,
+        alignItems: 'center',
+        justifyContent: 'space-between'
+      }}>
+        <a href="/" style={{ color: '#888', textDecoration: 'none' }}>
+          <ArrowLeft size={20} />
+        </a>
+        <div style={{ textAlign: 'center', flex: 1 }}>
+          <span style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 'bold', fontSize: '16px', display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '200px', margin: '0 auto' }}>
+            {summary.title}
+          </span>
+        </div>
+        <a href="https://app.strescto.pl" style={{ color: '#E05D44' }}>
+          <Sparkles size={20} />
+        </a>
+      </header>
+
+      <div style={{ display: 'flex', flex: 1 }}>
+        {/* Sidebar (Desktop) */}
+        <aside style={{ 
+          width: '300px', 
+          position: 'fixed', 
+          height: '100vh', 
+          borderRight: '1px solid rgba(0,0,0,0.05)', 
+          padding: '40px 24px', 
+          display: 'none', 
+          flexDirection: 'column',
+          backgroundColor: '#fff',
+          zIndex: 100
+        }} className="sidebar-desktop">
         
         {/* Back Button */}
         <a href="/" style={{ 
@@ -664,9 +690,11 @@ export default async function SummaryPage({ params }) {
         </section>
 
       </main>
+      </div>
 
       <style dangerouslySetInnerHTML={{ __html: `
         .sidebar-desktop { display: flex !important; }
+        .mobile-header { display: none !important; }
         .main-content { flex: 1; margin-left: 300px; max-width: calc(100% - 300px); padding: 60px 80px; }
         
         .btn-secondary:hover {
@@ -686,6 +714,7 @@ export default async function SummaryPage({ params }) {
 
         @media (max-width: 768px) {
           .sidebar-desktop { display: none !important; }
+          .mobile-header { display: flex !important; }
           .main-content { margin-left: 0 !important; max-width: 100% !important; padding: 32px 20px !important; }
           .summary-page-container h1 { font-size: 32px !important; }
           .summary-page-container h2 { font-size: 24px !important; }
