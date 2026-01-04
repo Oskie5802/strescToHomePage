@@ -156,8 +156,6 @@ export default function Home() {
             overflow-x: hidden;
             line-height: 1.5;
             transition: opacity 0.3s ease;
-            margin-top: 40px; /* Dodatkowy margines od samej góry okna */
-            padding-top: 40px; /* Dodatkowy padding od samej góry okna */
         }
 
         /* Noise Texture */
@@ -172,12 +170,13 @@ export default function Home() {
         .container {
             max-width: var(--container-width);
             margin: 0 auto;
-            padding: 0 24px;
+            padding-left: 24px;
+            padding-right: 24px;
         }
 
         /* --- NAV & LANG SWITCHER --- */
         nav {
-            padding: 72px 0 32px 0;
+            padding: 80px 0 32px 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -509,7 +508,7 @@ export default function Home() {
         }
 
         @media (max-width: 480px) {
-            .container { padding: 0 16px; }
+            .container { padding-left: 16px; padding-right: 16px; }
             .hero-content h1 { font-size: 2.5rem; }
             .btn { width: 100%; justify-content: center; }
             .nav-right .btn { display: none; } /* Hide app button on small mobile header, maybe? Or keep icon only. Let's keep it but smaller or adjust */
