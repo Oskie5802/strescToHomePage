@@ -177,8 +177,7 @@ export async function generateMetadata({ params }) {
 export default async function SummaryPage({ params }) {
   const { slug } = await params
   const summary = await getSummary(slug)
-  const related = summary ? await getRelatedSummaries(summary.fullContentId) : []
-
+  
   if (!summary) {
     return (
       <div style={{ padding: '60px 20px', textAlign: 'center', fontFamily: 'sans-serif', maxWidth: '600px', margin: '0 auto' }}>
@@ -206,6 +205,8 @@ export default async function SummaryPage({ params }) {
       </div>
     )
   }
+
+  const related = await getRelatedSummaries(summary.fullContentId)
 
   // Schema.org JSON-LD
   const jsonLd = {
@@ -363,11 +364,22 @@ export default async function SummaryPage({ params }) {
              <div style={{ fontSize: '10px', textTransform: 'uppercase', color: '#999', letterSpacing: '1px', marginBottom: '12px', fontWeight: 'bold' }}>INNE OPRACOWANIA</div>
              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                {related.map((item, idx) => (
-                 <a key={idx} href={`/s/${item.slug}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ color: '#E05D44' }}><Sparkles size={14} /></span>
-                    <span style={{ fontSize: '12px', fontWeight: '600', color: '#232323' }}>{item.book_title}</span>
-                 </a>
-               ))}
+                   <a 
+                     key={idx} 
+                     href={`/s/${item.slug}`} 
+                     style={{ 
+                       textDecoration: 'none', 
+                       display: 'flex', 
+                       alignItems: 'center', 
+                       gap: '8px',
+                       color: '#232323',
+                       transition: 'color 0.2s ease'
+                     }}
+                   >
+                     <span style={{ color: '#E05D44' }}><Sparkles size={14} /></span>
+                     <span style={{ fontSize: '12px', fontWeight: '600', color: 'inherit' }}>{item.book_title}</span>
+                   </a>
+                 ))}
              </div>
           </div>
         )}
