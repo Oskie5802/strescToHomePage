@@ -248,7 +248,7 @@ export default async function SummaryPage({ params }) {
   }
 
   return (
-    <div style={{ backgroundColor: '#F2F0E9', minHeight: '100vh', color: '#232323', fontFamily: 'var(--font-manrope), sans-serif', display: 'flex' }}>
+    <div className="summary-page-container" style={{ backgroundColor: '#F2F0E9', minHeight: '100vh', color: '#232323', fontFamily: 'var(--font-manrope), sans-serif', display: 'flex' }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -261,11 +261,11 @@ export default async function SummaryPage({ params }) {
         height: '100vh', 
         borderRight: '1px solid rgba(0,0,0,0.05)', 
         padding: '40px 24px', 
-        display: 'flex', 
+        display: 'none', // Default hidden, handled by media query in global or inline
         flexDirection: 'column',
         backgroundColor: '#fff',
         zIndex: 100
-      }} className="hidden md:flex">
+      }} className="sidebar-desktop">
         
         {/* Back Button */}
         <a href="/" style={{ 
@@ -397,7 +397,7 @@ export default async function SummaryPage({ params }) {
       </aside>
 
       {/* Main Content Area */}
-      <main className="main-content" style={{ flex: 1, marginLeft: '300px', maxWidth: '100%', padding: '60px 80px' }}>
+      <main className="main-content">
         
         {/* Intro Paragraph */}
         <div style={{ fontSize: '18px', lineHeight: '1.8', color: '#232323', marginBottom: '48px' }}>
@@ -477,17 +477,20 @@ export default async function SummaryPage({ params }) {
 
       </main>
 
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
+        .sidebar-desktop { display: flex !important; }
+        .main-content { flex: 1; marginLeft: 300px; maxWidth: 100%; padding: 60px 80px; }
+        
         @media (max-width: 1024px) {
           .main-content { padding: 40px 40px !important; }
         }
         @media (max-width: 768px) {
-          aside { display: none !important; }
+          .sidebar-desktop { display: none !important; }
           .main-content { margin-left: 0 !important; padding: 32px 20px !important; }
-          h1 { fontSize: 32px !important; }
-          h2 { fontSize: 24px !important; }
+          .summary-page-container h1 { font-size: 32px !important; }
+          .summary-page-container h2 { font-size: 24px !important; }
         }
-      `}</style>
+      `}} />
     </div>
   )
 }
